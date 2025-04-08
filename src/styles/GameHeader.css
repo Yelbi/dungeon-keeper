@@ -1,4 +1,4 @@
-/* src/styles/GameHeader.css */
+/* src/styles/GameHeader.css - Versión mejorada */
 :root {
   --header-height: 80px;
   --header-padding: 15px;
@@ -9,9 +9,11 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   margin-bottom: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
   display: flex;
   transition: background-color var(--transition-normal, 0.3s);
+  /* Mejorar la apariencia general */
+  border: 1px solid var(--primary-dark);
 }
 
 /* Variantes por fase de juego */
@@ -25,9 +27,10 @@
   border-bottom: 2px solid var(--gold);
 }
 
-/* Sección del título - Ajustada para ocupar menos espacio horizontal en desktop */
+/* Sección del título - Rediseñada para ser más compacta */
 .game-title {
   background-color: var(--primary-dark);
+  background-image: linear-gradient(to bottom, var(--primary-dark), var(--primary));
   padding: var(--header-padding);
   display: flex;
   flex-direction: column;
@@ -40,7 +43,7 @@
   margin: 0;
   color: var(--text-light);
   font-size: 24px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   letter-spacing: 0.5px;
   display: flex;
   align-items: center;
@@ -50,9 +53,10 @@
   content: '👑';
   margin-right: 8px;
   font-size: 0.9em;
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
-/* Selector de dificultad */
+/* Selector de dificultad - Mejorado visualmente */
 .difficulty-selector {
   display: flex;
   align-items: center;
@@ -100,7 +104,7 @@
   font-style: italic;
 }
 
-/* Indicador de dificultad */
+/* Indicador de dificultad - Rediseñado para ser más llamativo */
 .difficulty-display {
   display: flex;
   align-items: center;
@@ -117,37 +121,40 @@
 .difficulty-value {
   font-size: 13px;
   font-weight: bold;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 12px;
   color: white;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* Indicador de fase */
+/* Indicador de fase - Mejorado para resaltar mejor */
 .phase-indicator {
   margin-left: auto;
   font-size: 13px;
-  padding: 3px 8px;
+  padding: 4px 10px;
   background-color: var(--bg-dark);
   border-radius: 12px;
   color: var(--text-light);
   display: flex;
   align-items: center;
-  gap: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  gap: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.5s;
+  font-weight: bold;
 }
 
-/* Estado del juego - Expandido en escritorio */
+/* Estado del juego - Rediseñado para mejor uso del espacio */
 .game-status {
   flex: 1;
   padding: var(--header-padding);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), transparent);
 }
 
-/* Stats reorganizados para mejor uso del espacio en escritorio */
+/* Stats reorganizados para mejor apariencia */
 .stats {
   display: flex;
   gap: 15px;
@@ -162,32 +169,39 @@
   padding: 6px 12px;
   background-color: var(--bg-dark);
   border-radius: var(--border-radius);
-  transition: transform var(--transition-fast, 0.2s);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform var(--transition-fast, 0.2s), box-shadow var(--transition-fast, 0.2s);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   min-width: 100px;
   justify-content: center;
+  border: 1px solid transparent;
 }
 
 .stat-item:hover {
   transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .stat-item.day {
   background-color: var(--primary-dark);
+  background-image: linear-gradient(to bottom, var(--primary-dark), var(--primary));
+  border-color: var(--primary-light);
 }
 
 .stat-item.gold {
   background-color: rgba(241, 196, 15, 0.2);
   border: 1px solid rgba(241, 196, 15, 0.4);
+  background-image: linear-gradient(to bottom, rgba(241, 196, 15, 0.3), rgba(241, 196, 15, 0.1));
 }
 
 .stat-item.experience {
   background-color: rgba(155, 89, 182, 0.2);
   border: 1px solid rgba(155, 89, 182, 0.4);
+  background-image: linear-gradient(to bottom, rgba(155, 89, 182, 0.3), rgba(155, 89, 182, 0.1));
 }
 
 .stat-icon {
   font-size: 18px;
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
 .stat-label {
@@ -201,9 +215,10 @@
   font-size: 16px;
   color: var(--text-light);
   transition: all 0.3s;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Animaciones de cambio de recursos */
+/* Animaciones de cambio de recursos - Mejoradas */
 .stat-value.increase {
   animation: resourceIncrease 1s;
   color: var(--success);
@@ -216,17 +231,17 @@
 
 @keyframes resourceIncrease {
   0% { transform: scale(1); }
-  50% { transform: scale(1.2); color: var(--success); }
+  50% { transform: scale(1.2); color: var(--success); text-shadow: 0 0 10px var(--success); }
   100% { transform: scale(1); }
 }
 
 @keyframes resourceDecrease {
   0% { transform: scale(1); }
-  50% { transform: scale(1.2); color: var(--danger); }
+  50% { transform: scale(1.2); color: var(--danger); text-shadow: 0 0 10px var(--danger); }
   100% { transform: scale(1); }
 }
 
-/* Contenedor de mensajes - Mejor uso del espacio */
+/* Contenedor de mensajes - Rediseñado para ser más atractivo */
 .message-display {
   flex: 1;
   background-color: var(--bg-light);
@@ -234,8 +249,9 @@
   border-radius: var(--border-radius);
   position: relative;
   overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
   max-width: none;
+  border: 1px solid var(--neutral-dark);
 }
 
 .message-content {
@@ -246,9 +262,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
+  padding: 5px;
+  font-weight: 500;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-/* Animación para nuevos mensajes */
+/* Animación para nuevos mensajes - Mejorada */
 .message-content.new-message {
   animation: messageAppear 1s;
 }
@@ -258,33 +277,37 @@
   100% { transform: translateY(0); opacity: 1; }
 }
 
-/* Acciones en el encabezado */
+/* Acciones en el encabezado - Rediseñado */
 .header-actions {
   display: flex;
   align-items: center;
   padding: 0 var(--header-padding);
   gap: 10px;
   border-left: 1px solid var(--bg-dark);
+  background-color: var(--primary-dark);
+  background-image: linear-gradient(to bottom, var(--primary-dark), var(--primary));
 }
 
 .help-button {
   background-color: var(--bg-light);
   border: none;
   color: var(--text-light);
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
   transition: all 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .help-button:hover {
   background-color: var(--primary);
   transform: scale(1.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
 
 .help-button:active {

@@ -1,4 +1,4 @@
-/* src/styles/Dungeon.css */
+/* src/styles/Dungeon.css - Versión mejorada */
 
 /* Contenedor principal de la mazmorra */
 .dungeon-container {
@@ -21,14 +21,21 @@
   position: relative;
   overflow: hidden;
   transition: all var(--transition-normal, 0.3s);
-  padding: 20px;
+  padding: 10px; /* Reducido para minimizar espacio entre celdas */
 }
 
-/* Filas del tablero */
+/* Filas del tablero - ajustadas para evitar espacios */
 .dungeon-row {
   display: flex;
   flex: 1;
   justify-content: center;
+  /* Eliminar espacio entre filas */
+  height: var(--cell-size);
+  min-height: var(--cell-size);
+  max-height: var(--cell-size);
+  margin: 0;
+  padding: 0;
+  line-height: 0;
 }
 
 /* Animación de carga */
