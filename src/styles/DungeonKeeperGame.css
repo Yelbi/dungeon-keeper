@@ -1,4 +1,4 @@
-/* src/styles/DungeonKeeperGame.css */
+/* DungeonKeeperGame.css - Global styles */
 :root {
   /* Paleta de colores */
   --primary-dark: #2c3e50;
@@ -32,6 +32,7 @@
   --transition-fast: 0.2s;
   --transition-normal: 0.3s;
   --transition-slow: 0.5s;
+  --header-padding: 15px;
 }
 
 * {
@@ -64,6 +65,21 @@ body {
   position: relative;
 }
 
+/* Dungeon container modifications */
+.dungeon-container {
+  display: flex;
+  flex: 2;
+  gap: 20px;
+  position: relative;
+  height: 100%;
+  min-width: 0;
+}
+
+/* Hide info panel by default, show in help overlay */
+.dungeon-info-panel {
+  display: none;
+}
+
 /* Mejora de accesibilidad para enfoque */
 button:focus, 
 input:focus, 
@@ -73,44 +89,7 @@ a:focus {
   outline-offset: 2px;
 }
 
-/* Media queries para responsividad */
-@media (max-width: 1200px) {
-  .game-content {
-    flex-direction: column;
-  }
-  
-  .dungeon-container {
-    margin-bottom: 20px;
-  }
-}
-
-@media (max-width: 992px) {
-  :root {
-    --cell-size: 45px;
-  }
-}
-
-@media (max-width: 768px) {
-  .dungeon-keeper-game {
-    padding: 10px;
-  }
-  
-  :root {
-    --cell-size: 40px;
-  }
-}
-
-@media (max-width: 576px) {
-  :root {
-    --cell-size: 30px; 
-  }
-  
-  .game-content {
-    gap: 10px;
-  }
-}
-
-/* Animaciones globales */
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -135,7 +114,7 @@ a:focus {
   100% { transform: translateX(0); }
 }
 
-/* Clases de utilidad */
+/* Utility classes */
 .victory-text {
   color: var(--success);
   font-weight: bold;
@@ -166,305 +145,35 @@ a:focus {
   font-weight: bold;
 }
 
-.adventurer-name {
-  color: var(--info);
-  font-weight: bold;
+/* Media queries for responsiveness */
+@media (max-width: 1200px) {
+  .game-content {
+    flex-direction: column;
+  }
 }
 
-.monster-name {
-  color: var(--danger);
-  font-weight: bold;
-}
-
-.trap-name {
-  color: var(--gold);
-  font-weight: bold;
-}
-
-/* Botones genéricos */
-button {
-  background-color: var(--primary);
-  color: var(--text-light);
-  border: none;
-  padding: 8px 16px;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color var(--transition-fast), transform var(--transition-fast);
-}
-
-button:hover {
-  background-color: var(--primary-light);
-}
-
-button:active {
-  transform: scale(0.98);
-}
-
-button.primary {
-  background-color: var(--secondary);
-}
-
-button.primary:hover {
-  background-color: var(--secondary-light);
-}
-
-button:disabled {
-  background-color: var(--neutral-dark);
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-/* Inputs genéricos */
-input, select {
-  background-color: var(--bg-light);
-  color: var(--text-light);
-  border: 1px solid var(--neutral-dark);
-  padding: 8px 12px;
-  border-radius: var(--border-radius);
-  font-size: 14px;
-  transition: border-color var(--transition-fast);
-}
-
-input:focus, select:focus {
-  outline: none;
-  border-color: var(--primary-light);
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
-}
-
-/* Contenedores con sombra */
-.shadow-container {
-  background-color: var(--bg-medium);
-  border-radius: var(--border-radius);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  margin-bottom: 16px;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.shadow-container:hover {
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
-}
-
-/* Barras de salud */
-.health-bar-container {
-  width: 100%;
-  height: 10px;
-  background-color: var(--bg-light);
-  border-radius: 5px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-.health-bar {
-  height: 100%;
-  background-color: var(--health);
-  transition: width var(--transition-normal) ease;
-}
-
-.health-bar.health-warning {
-  background-color: var(--health-warning);
-}
-
-.health-bar.health-critical {
-  background-color: var(--health-critical);
-  animation: pulse 1.5s infinite;
-}
-
-.health-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 10px;
-  color: var(--text-light);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-  user-select: none;
-}
-
-/* Transiciones entre fases de juego */
-.game-content {
-  transition: opacity var(--transition-normal) ease;
-}
-
-.game-content.transitioning {
-  opacity: 0;
-}
-
-/* Control de velocidad de batalla mejorado */
-.battle-speed-control {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-  z-index: 10;
-}
-
-.speed-toggle-btn {
-  padding: 5px 10px;
-  background-color: var(--bg-light);
-  border: 1px solid var(--neutral-dark);
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.speed-toggle-btn:hover {
-  background-color: var(--primary-light);
-  transform: translateY(-2px);
-}
-
-.speed-toggle-btn.active {
-  background-color: var(--secondary);
-  color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.speed-toggle-btn.active:hover {
-  background-color: var(--secondary-light);
-}
-
-/* Resumen de batalla mejorado */
-.battle-breakdown {
-  background-color: var(--bg-light);
-  border-radius: var(--border-radius);
-  padding: 15px;
-  animation: fadeIn var(--transition-normal);
-}
-
-.battle-breakdown h3 {
-  margin: 0 0 10px 0;
-  font-size: 16px;
-  color: var(--secondary-light);
-  border-bottom: 1px solid var(--neutral-dark);
-  padding-bottom: 5px;
-}
-
-.breakdown-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.breakdown-item {
-  display: flex;
-  align-items: center;
-  background-color: var(--bg-medium);
-  padding: 8px;
-  border-radius: var(--border-radius);
-  transition: transform var(--transition-fast);
-}
-
-.breakdown-item:hover {
-  transform: translateY(-2px);
-  background-color: var(--primary-dark);
-}
-
-.breakdown-label {
-  flex: 1;
-  font-size: 13px;
-  color: var(--text-light);
-}
-
-.breakdown-value {
-  font-weight: bold;
-  font-size: 14px;
-  color: var(--info);
-}
-
-/* Mejora animación para los consejos */
-.tip-item {
-  animation: fadeIn var(--transition-slow) ease-in-out;
-}
-
-/* Mejorar el aspecto visual de los mensajes de log */
-.log-entry .victory-text {
-  background-color: rgba(39, 174, 96, 0.1);
-  padding: 2px 5px;
-  border-radius: 3px;
-}
-
-.log-entry .defeat-text {
-  background-color: rgba(192, 57, 43, 0.1);
-  padding: 2px 5px;
-  border-radius: 3px;
-}
-
-.log-entry .critical-text {
-  background-color: rgba(231, 76, 60, 0.1);
-  padding: 2px 5px;
-  border-radius: 3px;
-  animation: shake 0.5s ease-in-out;
-}
-
-/* Tooltips mejorados */
-.tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-.tooltip .tooltip-text {
-  visibility: hidden;
-  background-color: var(--bg-dark);
-  color: var(--text-light);
-  text-align: center;
-  border-radius: var(--border-radius);
-  padding: 5px 10px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity var(--transition-normal);
-  white-space: nowrap;
-  font-size: 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  width: max-content;
-  max-width: 200px;
-}
-
-.tooltip:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* Soporte para temas claros/oscuros */
-@media (prefers-color-scheme: light) {
+@media (max-width: 992px) {
   :root {
-    --bg-dark: #f5f5f5;
-    --bg-medium: #e0e0e0;
-    --bg-light: #ffffff;
-    --text-light: #333333;
-    --text-dark: #000000;
-    --neutral-dark: #777;
-    --neutral: #999;
-    --neutral-light: #bbb;
+    --cell-size: 45px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dungeon-keeper-game {
+    padding: 10px;
   }
   
-  .health-text {
-    text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+  :root {
+    --cell-size: 40px;
   }
 }
 
-/* Modo alto contraste para accesibilidad */
-@media (prefers-contrast: high) {
+@media (max-width: 576px) {
   :root {
-    --primary: #0000cc;
-    --primary-light: #0000ff;
-    --secondary: #cc0000;
-    --secondary-light: #ff0000;
-    --text-light: #ffffff;
-    --text-dark: #000000;
+    --cell-size: 30px; 
   }
   
-  button, .tool-button, .selector-item {
-    border: 2px solid currentColor;
+  .game-content {
+    gap: 10px;
   }
 }

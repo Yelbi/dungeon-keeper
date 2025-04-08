@@ -1,9 +1,4 @@
-/* src/styles/GameHeader.css - Versión mejorada */
-:root {
-  --header-height: 80px;
-  --header-padding: 15px;
-}
-
+/* GameHeader.css */
 .game-header {
   background-color: var(--bg-medium);
   border-radius: var(--border-radius);
@@ -12,31 +7,18 @@
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
   display: flex;
   transition: background-color var(--transition-normal, 0.3s);
-  /* Mejorar la apariencia general */
   border: 1px solid var(--primary-dark);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
 }
 
-/* Variantes por fase de juego */
-.game-header.battle-phase {
-  background-color: var(--bg-dark);
-  border-bottom: 2px solid var(--secondary);
-}
-
-.game-header.summary-phase {
-  background-color: var(--bg-dark);
-  border-bottom: 2px solid var(--gold);
-}
-
-/* Sección del título - Rediseñada para ser más compacta */
 .game-title {
-  background-color: var(--primary-dark);
-  background-image: linear-gradient(to bottom, var(--primary-dark), var(--primary));
+  background-color: transparent;
   padding: var(--header-padding);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 250px;
-  flex-shrink: 0;
+  align-items: center;
+  width: auto;
 }
 
 .game-title h1 {
@@ -56,60 +38,54 @@
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 
-/* Selector de dificultad - Mejorado visualmente */
-.difficulty-selector {
+/* Simplified header message section */
+.message-display {
+  flex: 1;
+  background-color: var(--bg-light);
+  padding: 10px 15px;
+  border-radius: var(--border-radius);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  margin: 0 20px;
+  border: 1px solid var(--neutral-dark);
+}
+
+.message-content {
+  color: var(--text-light);
+  font-size: 15px;
+  transition: all 0.3s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  padding: 5px;
+  font-weight: 500;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.message-content.new-message {
+  animation: messageAppear 1s;
+}
+
+@keyframes messageAppear {
+  0% { transform: translateY(-20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Header actions section containing difficulty and help */
+.header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 15px;
 }
 
-.difficulty-selector label {
-  color: var(--text-light);
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.difficulty-selector select {
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: 1px solid var(--neutral-dark);
-  background-color: var(--bg-light);
-  color: var(--text-light);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all var(--transition-fast, 0.2s);
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ecf0f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 30px;
-}
-
-.difficulty-selector select:hover {
-  border-color: var(--primary-light);
-  box-shadow: 0 0 0 1px var(--primary-light);
-}
-
-.difficulty-selector select:focus {
-  outline: none;
-  border-color: var(--info);
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.4);
-}
-
-.difficulty-description {
-  font-size: 12px;
-  color: var(--neutral-light);
-  margin-top: 5px;
-  font-style: italic;
-}
-
-/* Indicador de dificultad - Rediseñado para ser más llamativo */
+/* Restyle difficulty display */
 .difficulty-display {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 8px;
 }
 
 .difficulty-label {
@@ -128,164 +104,26 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* Indicador de fase - Mejorado para resaltar mejor */
-.phase-indicator {
-  margin-left: auto;
-  font-size: 13px;
-  padding: 4px 10px;
-  background-color: var(--bg-dark);
-  border-radius: 12px;
-  color: var(--text-light);
+.difficulty-selector {
   display: flex;
   align-items: center;
-  gap: 6px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.5s;
-  font-weight: bold;
-}
-
-/* Estado del juego - Rediseñado para mejor uso del espacio */
-.game-status {
-  flex: 1;
-  padding: var(--header-padding);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), transparent);
-}
-
-/* Stats reorganizados para mejor apariencia */
-.stats {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 10px;
-  justify-content: flex-start;
-}
-
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  background-color: var(--bg-dark);
-  border-radius: var(--border-radius);
-  transition: transform var(--transition-fast, 0.2s), box-shadow var(--transition-fast, 0.2s);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  min-width: 100px;
-  justify-content: center;
-  border: 1px solid transparent;
-}
-
-.stat-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-}
-
-.stat-item.day {
-  background-color: var(--primary-dark);
-  background-image: linear-gradient(to bottom, var(--primary-dark), var(--primary));
-  border-color: var(--primary-light);
-}
-
-.stat-item.gold {
-  background-color: rgba(241, 196, 15, 0.2);
-  border: 1px solid rgba(241, 196, 15, 0.4);
-  background-image: linear-gradient(to bottom, rgba(241, 196, 15, 0.3), rgba(241, 196, 15, 0.1));
-}
-
-.stat-item.experience {
-  background-color: rgba(155, 89, 182, 0.2);
-  border: 1px solid rgba(155, 89, 182, 0.4);
-  background-image: linear-gradient(to bottom, rgba(155, 89, 182, 0.3), rgba(155, 89, 182, 0.1));
-}
-
-.stat-icon {
-  font-size: 18px;
-  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
-}
-
-.stat-label {
-  font-size: 14px;
-  color: var(--neutral-light);
-  white-space: nowrap;
-}
-
-.stat-value {
-  font-weight: bold;
-  font-size: 16px;
-  color: var(--text-light);
-  transition: all 0.3s;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* Animaciones de cambio de recursos - Mejoradas */
-.stat-value.increase {
-  animation: resourceIncrease 1s;
-  color: var(--success);
-}
-
-.stat-value.decrease {
-  animation: resourceDecrease 1s;
-  color: var(--danger);
-}
-
-@keyframes resourceIncrease {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); color: var(--success); text-shadow: 0 0 10px var(--success); }
-  100% { transform: scale(1); }
-}
-
-@keyframes resourceDecrease {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); color: var(--danger); text-shadow: 0 0 10px var(--danger); }
-  100% { transform: scale(1); }
-}
-
-/* Contenedor de mensajes - Rediseñado para ser más atractivo */
-.message-display {
-  flex: 1;
-  background-color: var(--bg-light);
-  padding: 10px 15px;
-  border-radius: var(--border-radius);
-  position: relative;
-  overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-  max-width: none;
-  border: 1px solid var(--neutral-dark);
-}
-
-.message-content {
-  color: var(--text-light);
-  font-size: 15px;
-  transition: all 0.3s;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-  padding: 5px;
-  font-weight: 500;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-}
-
-/* Animación para nuevos mensajes - Mejorada */
-.message-content.new-message {
-  animation: messageAppear 1s;
-}
-
-@keyframes messageAppear {
-  0% { transform: translateY(-20px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-/* Acciones en el encabezado - Rediseñado */
-.header-actions {
-  display: flex;
-  align-items: center;
-  padding: 0 var(--header-padding);
   gap: 10px;
-  border-left: 1px solid var(--bg-dark);
-  background-color: var(--primary-dark);
-  background-image: linear-gradient(to bottom, var(--primary-dark), var(--primary));
+}
+
+.difficulty-selector select {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--neutral-dark);
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.2s);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ecf0f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
 }
 
 .help-button {
@@ -307,14 +145,235 @@
 .help-button:hover {
   background-color: var(--primary);
   transform: scale(1.1);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
 
-.help-button:active {
-  transform: scale(0.95);
+/* Help overlay window */
+.help-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
 }
 
-/* Utilidad para esconder contenido pero mantenerlo accesible */
+.help-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.help-content {
+  background-color: var(--bg-medium);
+  border-radius: var(--border-radius);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 80%;
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 25px;
+  border: 1px solid var(--primary-light);
+}
+
+.help-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--bg-light);
+  border: none;
+  color: var(--text-light);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.help-close:hover {
+  background-color: var(--danger);
+}
+
+.help-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--neutral-dark);
+  margin-bottom: 20px;
+}
+
+.help-tab {
+  padding: 8px 15px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.help-tab.active {
+  border-bottom-color: var(--primary);
+  font-weight: bold;
+}
+
+.help-tab-content {
+  display: none;
+}
+
+.help-tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s;
+}
+
+/* Legend section inside help */
+.legend-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--text-light);
+  border-bottom: 1px solid var(--neutral-dark);
+  padding-bottom: 5px;
+}
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.legend-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  font-size: 18px;
+}
+
+.legend-icon.entrance {
+  background-color: var(--primary-light);
+}
+
+.legend-icon.player {
+  background-color: var(--secondary);
+}
+
+.legend-icon.path {
+  background-color: var(--path-color);
+}
+
+.legend-icon.monster {
+  background-color: var(--danger);
+}
+
+.legend-icon.trap {
+  background-color: var(--gold);
+}
+
+.legend-icon.highlight-path {
+  background-color: rgba(52, 152, 219, 0.3);
+  border: 1px dashed #3498db;
+}
+
+.legend-icon.room {
+  background-color: rgba(241, 196, 15, 0.3);
+  border: 1px solid rgba(241, 196, 15, 0.7);
+}
+
+.legend-icon.hall {
+  background-color: rgba(52, 152, 219, 0.3);
+  border: 1px solid rgba(52, 152, 219, 0.7);
+}
+
+.legend-text {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+/* Stats section inside help */
+.stats-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--text-light);
+  border-bottom: 1px solid var(--neutral-dark);
+  padding-bottom: 5px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.stat-item {
+  background-color: var(--bg-medium);
+  padding: 8px;
+  border-radius: var(--border-radius);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-item.total {
+  grid-column: span 2;
+  background-color: var(--primary-dark);
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.stat-value {
+  font-weight: bold;
+  color: var(--primary-light);
+}
+
+/* Tips section inside help */
+.tips-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--text-light);
+  border-bottom: 1px solid var(--neutral-dark);
+  padding-bottom: 5px;
+}
+
+.tips-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tips-list li {
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 10px;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+.tips-list li:before {
+  content: "💡";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* For accessibility */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -327,112 +386,15 @@
   border: 0;
 }
 
-/* Media queries para responsividad */
-@media (min-width: 992px) {
-  .stats {
-    min-width: 400px; /* Asegurar espacio suficiente para los stats en desktop */
-  }
-  
-  .stat-label {
-    display: inline; /* Mostrar etiquetas en desktop */
-  }
-  
-  .message-display {
-    margin-left: 15px;
-    margin-right: 15px;
-  }
-}
-
-@media (max-width: 991px) {
+/* Media queries */
+@media (max-width: 768px) {
   .game-header {
     flex-direction: column;
-  }
-  
-  .game-title {
-    width: auto;
-  }
-  
-  .difficulty-display {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .stats {
-    justify-content: space-between;
-  }
-  
-  .stat-label {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .game-title {
-    padding: 12px;
-  }
-  
-  .game-title h1 {
-    font-size: 20px;
-    justify-content: center;
-  }
-  
-  .difficulty-selector, .difficulty-display {
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .difficulty-description {
-    display: none;
-  }
-  
-  .game-status {
-    padding: 12px;
-  }
-  
-  .stats {
-    justify-content: space-around;
-    width: 100%;
+    padding: 10px;
   }
   
   .message-display {
-    margin-top: 10px;
-    text-align: center;
-    margin-left: 0;
-    margin-right: 0;
-  }
-  
-  .header-actions {
-    justify-content: center;
-    padding: 8px;
-    border-left: none;
-  }
-}
-
-@media (max-width: 576px) {
-  .stats {
-    gap: 10px;
-  }
-  
-  .stat-item {
-    flex: 1;
-    flex-direction: column;
-    padding: 8px 5px;
-    gap: 4px;
-    min-width: 0;
-  }
-  
-  .stat-icon {
-    font-size: 16px;
-  }
-  
-  .stat-value {
-    font-size: 14px;
-  }
-  
-  .phase-indicator {
-    display: none;
+    margin: 10px 0;
+    max-width: none;
   }
 }

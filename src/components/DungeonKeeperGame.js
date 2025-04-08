@@ -870,12 +870,9 @@ const DungeonKeeperGame = () => {
     setBattleSpeed(newSpeed);
     
     if (battleManager) {
-      // Si el battleManager ya tiene un método setSimulationSpeed
       if (typeof battleManager.setSimulationSpeed === 'function') {
         battleManager.setSimulationSpeed(newSpeed);
-      } 
-      // En caso contrario, actualiza directamente los delays
-      else {
+      } else {
         battleManager.adventurerMoveDelay = 500 / newSpeed;
         battleManager.turnDelay = 1000 / newSpeed;
       }
@@ -1143,38 +1140,31 @@ const DungeonKeeperGame = () => {
             )}
             
             {gamePhase === 'battle' && (
-              <>
-                <BattleLog 
-                  log={battleLog} 
-                  adventurers={adventurers}
-                  day={day}
-                  // Props para mejorar la UX
-                  bossHealth={dungeon[playerPosition.y]?.[playerPosition.x]?.item?.health || 100}
-                  bossMaxHealth={dungeon[playerPosition.y]?.[playerPosition.x]?.item?.maxHealth || 100}
-                />
-                <div className="battle-speed-control">
-                  <button 
-                    className={`speed-toggle-btn ${battleSpeed === 2 ? 'active' : ''}`}
-                    onClick={toggleBattleSpeed}
-                  >
-                    {battleSpeed === 1 ? '🐢 1x' : '🐇 2x'} Velocidad
-                  </button>
-                </div>
-              </>
+              <BattleLog 
+                log={battleLog} 
+                adventurers={adventurers}
+                day={day}
+                bossHealth={dungeon[playerPosition.y]?.[playerPosition.x]?.item?.health || 100}
+                bossMaxHealth={dungeon[playerPosition.y]?.[playerPosition.x]?.item?.maxHealth || 100}
+                toggleBattleSpeed={toggleBattleSpeed}
+                battleSpeed={battleSpeed}
+              />
             )}
 
             {gamePhase === 'summary' && (
               <GameSummary 
                 day={day}
-                gold={gold - goldReward} // Pasar el oro ANTES de la recompensa
-                experience={experience - experienceReward} // Pasar experiencia ANTES de la recompensa
+                gold={gold - goldReward}
+                experience={experience - experienceReward}
                 nextDay={nextDay}
                 adventurers={adventurers}
                 battleLog={battleLog}
                 goldReward={goldReward}
                 experienceReward={experienceReward}
-                // Usar las estadísticas memoizadas
-                {...dungeonStats}
+                roomsCount={rooms.length}
+                hallsCount={halls.length}
+                monstersCount={countDungeonItems(dungeon, 'monster')}
+                trapsCount={countDungeonItems(dungeon, 'trap')}
               />
             )}
           </>

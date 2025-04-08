@@ -2,9 +2,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/GameHeader.css';
 
-/**
- * Componente GameHeader - Muestra la barra superior con información del juego
- */
 const GameHeader = ({ 
   day, 
   gold, 
@@ -14,18 +11,10 @@ const GameHeader = ({
   setDifficulty,
   gamePhase
 }) => {
-  // Referencias para animaciones de recursos
-  const goldRef = useRef(null);
-  const expRef = useRef(null);
-  
-  // Estados para almacenar valores previos y animar cambios
-  const [prevGold, setPrevGold] = useState(gold);
-  const [prevExp, setPrevExp] = useState(experience);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [activeHelpTab, setActiveHelpTab] = useState('legend');
   const [isMessageNew, setIsMessageNew] = useState(false);
-  
-  // Solo permitir cambiar la dificultad en la fase de construcción del día 1
-  const canChangeDifficulty = gamePhase === 'build' && day === 1;
-  
+
   // Mapear dificultad a texto legible
   const difficultyInfo = {
     easy: {
@@ -50,20 +39,8 @@ const GameHeader = ({
     }
   };
   
-  // Detectar cambios en los recursos para animarlos
-  useEffect(() => {
-    // Animar cambio de oro
-    if (gold !== prevGold) {
-      animateResourceChange(goldRef.current, gold > prevGold ? 'increase' : 'decrease');
-      setPrevGold(gold);
-    }
-    
-    // Animar cambio de experiencia
-    if (experience !== prevExp) {
-      animateResourceChange(expRef.current, experience > prevExp ? 'increase' : 'decrease');
-      setPrevExp(experience);
-    }
-  }, [gold, experience, prevGold, prevExp]);
+  // Solo permitir cambiar la dificultad en la fase de construcción del día 1
+  const canChangeDifficulty = gamePhase === 'build' && day === 1;
   
   // Detectar cambios en el mensaje para animarlo
   useEffect(() => {
@@ -74,124 +51,166 @@ const GameHeader = ({
     
     return () => clearTimeout(timer);
   }, [message]);
-  
-  // Función para animar cambios en recursos
-  const animateResourceChange = (element, changeType) => {
-    if (!element) return;
-    
-    // Añadir clase para la animación
-    element.classList.add(changeType);
-    
-    // Eliminar la clase después de la animación
-    setTimeout(() => {
-      element.classList.remove(changeType);
-    }, 1000);
-  };
-  
-  // Manejar cambio de dificultad
-  const handleDifficultyChange = (e) => {
-    const newDifficulty = e.target.value;
-    setDifficulty(newDifficulty);
-  };
-  
-  // Determinar clases para el mensaje
-  const messageClasses = ['message-content'];
-  if (isMessageNew) messageClasses.push('new-message');
-  
-  // Determinar tema para la fase actual
-  const headerClasses = ['game-header'];
-  if (gamePhase === 'battle') headerClasses.push('battle-phase');
-  if (gamePhase === 'summary') headerClasses.push('summary-phase');
-  
+
   return (
-    <header className={headerClasses.join(' ')}>
+    <header className={`game-header ${gamePhase === 'battle' ? 'battle-phase' : ''}`}>
       <div className="game-title">
         <h1>Dungeon Keeper</h1>
-        
-        {/* Selector de dificultad (solo en el día 1) */}
+      </div>
+      
+      <div className="message-display" role="status" aria-live="polite">
+        <div className={`message-content ${isMessageNew ? 'new-message' : ''}`}>{message}</div>
+      </div>
+      
+      <div className="header-actions">
+        {/* Difficulty display */}
         {canChangeDifficulty ? (
           <div className="difficulty-selector">
-            <label htmlFor="difficulty-select">Dificultad:</label>
             <select 
               id="difficulty-select" 
               value={difficulty}
-              onChange={handleDifficultyChange}
+              onChange={(e) => setDifficulty(e.target.value)}
               aria-label="Seleccionar dificultad"
             >
               {Object.entries(difficultyInfo).map(([key, info]) => (
                 <option key={key} value={key}>{info.name}</option>
               ))}
             </select>
-            <div className="difficulty-description">
-              {difficultyInfo[difficulty].description}
-            </div>
           </div>
         ) : (
           <div className="difficulty-display">
-            <span className="difficulty-label">Dificultad:</span>
             <span 
               className="difficulty-value" 
               style={{ backgroundColor: difficultyInfo[difficulty].color }}
             >
               {difficultyInfo[difficulty].name}
             </span>
-            
-            {/* Indicador de fase */}
-            <span className="phase-indicator">
-              {gamePhase === 'build' && '🛠️ Fase de Construcción'}
-              {gamePhase === 'battle' && '⚔️ Fase de Batalla'}
-              {gamePhase === 'summary' && '📊 Resumen del Día'}
-            </span>
           </div>
         )}
-      </div>
-      
-      <div className="game-status">
-        <div className="stats">
-          <div className="stat-item day" title={`Día actual: ${day}`}>
-            <span className="stat-icon" role="img" aria-hidden="true">📅</span>
-            <span className="stat-label">Día</span>
-            <span className="stat-value">{day}</span>
-          </div>
-          
-          <div className="stat-item gold" title={`Oro disponible: ${gold}`}>
-            <span className="stat-icon" role="img" aria-hidden="true">💰</span>
-            <span className="stat-label">Oro</span>
-            <span className="stat-value" ref={goldRef}>{gold}</span>
-          </div>
-          
-          <div className="stat-item experience" title={`Experiencia disponible: ${experience}`}>
-            <span className="stat-icon" role="img" aria-hidden="true">✨</span>
-            <span className="stat-label">Exp</span>
-            <span className="stat-value" ref={expRef}>{experience}</span>
-          </div>
-        </div>
         
-        <div className="message-display" role="status" aria-live="polite">
-          <div className={messageClasses.join(' ')}>{message}</div>
-        </div>
+        <button 
+          className="help-button" 
+          title="Mostrar ayuda"
+          onClick={() => setIsHelpOpen(true)}
+        >
+          <span role="img" aria-hidden="true">❓</span>
+          <span className="visually-hidden">Ayuda</span>
+        </button>
       </div>
       
-      {/* Botones de acciones principales según la fase */}
-      <div className="header-actions">
-        {gamePhase === 'build' && (
+      {/* Help overlay */}
+      <div className={`help-overlay ${isHelpOpen ? 'visible' : ''}`}>
+        <div className="help-content">
           <button 
-            className="help-button" 
-            title="Mostrar ayuda"
-            onClick={() => showHelp()}
+            className="help-close"
+            onClick={() => setIsHelpOpen(false)}
           >
-            <span role="img" aria-hidden="true">❓</span>
-            <span className="visually-hidden">Ayuda</span>
+            ✕
           </button>
-        )}
+          
+          <div className="help-tabs">
+            <div 
+              className={`help-tab ${activeHelpTab === 'legend' ? 'active' : ''}`}
+              onClick={() => setActiveHelpTab('legend')}
+            >
+              Leyenda
+            </div>
+            <div 
+              className={`help-tab ${activeHelpTab === 'stats' ? 'active' : ''}`}
+              onClick={() => setActiveHelpTab('stats')}
+            >
+              Estadísticas
+            </div>
+            <div 
+              className={`help-tab ${activeHelpTab === 'tips' ? 'active' : ''}`}
+              onClick={() => setActiveHelpTab('tips')}
+            >
+              Consejos
+            </div>
+          </div>
+          
+          <div className={`help-tab-content ${activeHelpTab === 'legend' ? 'active' : ''}`}>
+            <h3 className="legend-title">Leyenda</h3>
+            <div className="legend-grid">
+              <div className="legend-item">
+                <div className="legend-icon entrance">🚪</div>
+                <div className="legend-text">Entrada</div>
+              </div>
+              <div className="legend-item">
+                <div className="legend-icon player">👑</div>
+                <div className="legend-text">Jefe Final</div>
+              </div>
+              <div className="legend-item">
+                <div className="legend-icon path"></div>
+                <div className="legend-text">Camino</div>
+              </div>
+              <div className="legend-item">
+                <div className="legend-icon room">🏠</div>
+                <div className="legend-text">Habitación</div>
+              </div>
+              <div className="legend-item">
+                <div className="legend-icon hall">🏛️</div>
+                <div className="legend-text">Sala</div>
+              </div>
+              <div className="legend-item">
+                <div className="legend-icon monster">👾</div>
+                <div className="legend-text">Monstruo</div>
+              </div>
+              <div className="legend-item">
+                <div className="legend-icon trap">⚠️</div>
+                <div className="legend-text">Trampa</div>
+              </div>
+              <div className="legend-item">
+                <div className="legend-icon highlight-path"></div>
+                <div className="legend-text">Ruta actual</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className={`help-tab-content ${activeHelpTab === 'stats' ? 'active' : ''}`}>
+            <h3 className="stats-title">Estadísticas</h3>
+            <div className="stats-grid">
+              <div className="stat-item">
+                <span className="stat-label">Caminos:</span>
+                <span className="stat-value">{/* pathsCount */}</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">Monstruos:</span>
+                <span className="stat-value">{/* monstersCount */}</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">Trampas:</span>
+                <span className="stat-value">{/* trapsCount */}</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">Habitaciones:</span>
+                <span className="stat-value">{/* roomCount */}</span>
+              </div>
+              <div className="stat-item">
+                <span className="stat-label">Salas:</span>
+                <span className="stat-value">{/* hallCount */}</span>
+              </div>
+              <div className="stat-item total">
+                <span className="stat-label">Total celdas:</span>
+                <span className="stat-value">{/* totalCells */}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className={`help-tab-content ${activeHelpTab === 'tips' ? 'active' : ''}`}>
+            <h3 className="tips-title">Consejos</h3>
+            <ul className="tips-list">
+              <li>Coloca monstruos estratégicamente para maximizar su efectividad</li>
+              <li>Las habitaciones aumentan el daño de los monstruos en un 15%</li>
+              <li>Las salas aumentan el daño en un 20% y la salud en un 10%</li>
+              <li>Los caminos deben estar conectados desde la entrada hasta el jefe final</li>
+              <li>Combina trampas y monstruos para crear defensas efectivas</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </header>
   );
-  
-  // Función para mostrar ayuda (implementación simulada)
-  function showHelp() {
-    alert("Construye tu mazmorra:\n\n1. Coloca caminos para conectar la entrada con el jefe final\n2. Coloca monstruos y trampas para defender\n3. Construye habitaciones y salas para potenciar a tus monstruos\n4. Defiende tu mazmorra de los aventureros");
-  }
 };
 
 export default GameHeader;

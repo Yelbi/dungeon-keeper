@@ -1,253 +1,298 @@
-/* src/styles/BuildTools.css */
+/* BuildTools.css */
 .build-tools {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--bg-medium);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    min-width: 300px;
-    max-width: 400px;
-  }
-  
-  .tools-header {
-    background-color: var(--primary);
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .tools-header h3 {
-    margin: 0;
-    color: var(--text-light);
-    font-size: 18px;
-    text-align: center;
-  }
-  
-  .resources {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    background-color: var(--bg-light);
-    border-radius: var(--border-radius);
-  }
-  
-  .resource {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  .resource-icon {
-    font-size: 20px;
-  }
-  
-  .resource-value {
-    font-weight: bold;
-    font-size: 16px;
-  }
-  
-  .tools-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 15px;
-  }
-  
-  .tool-buttons {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .tool-button {
-    background-color: var(--bg-light);
-    border: 1px solid var(--neutral-dark);
-    border-radius: var(--border-radius);
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .tool-button:hover {
-    background-color: var(--primary-light);
-  }
-  
-  .tool-button.selected {
-    background-color: var(--primary);
-    border-color: var(--text-light);
-  }
-  
-  .tool-button .tool-cost {
-    display: block;
-    font-size: 0.8em;
-    margin-top: 2px;
-    color: var(--gold);
-  }
-  
-  .tool-button.disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: var(--neutral-dark);
-  }
-  
-  .tool-button.disabled:hover {
-    background-color: var(--neutral-dark);
-    transform: none;
-  }
-  
-  .tool-info-panel {
-    margin-bottom: 15px;
-    animation: fadeIn 0.3s;
-  }
-  
-  .tool-info {
-    background-color: var(--bg-light);
-    border-radius: var(--border-radius);
-    padding: 12px;
-    margin-top: 10px;
-    border-left: 3px solid var(--gold);
-  }
-  
-  .tool-info h4 {
-    margin-top: 0;
-    margin-bottom: 8px;
-    color: var(--gold);
-    font-size: 15px;
-  }
-  
-  .tool-info p {
-    font-size: 13px;
-    line-height: 1.4;
-    margin-bottom: 10px;
-  }
-  
-  .tool-info ul {
-    list-style-type: none;
-    padding-left: 5px;
-    margin: 0;
-    font-size: 13px;
-  }
-  
-  .tool-info li {
-    position: relative;
-    padding-left: 18px;
-    margin-bottom: 6px;
-  }
-  
-  .tool-info li:before {
-    content: "•";
-    position: absolute;
-    left: 5px;
-    color: var(--gold);
-  }
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-medium);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  min-width: 300px;
+  max-width: 400px;
+}
 
-  .tool-icon {
-    font-size: 24px;
-    margin-bottom: 5px;
-  }
-  
-  .tool-name {
-    font-size: 14px;
-  }
-  
-  /* Pestañas de selección */
-  .selector-tabs {
-    display: flex;
-    margin-bottom: 15px;
-    border-bottom: 1px solid var(--neutral-dark);
-  }
-  
-  .tab {
-    padding: 8px 15px;
-    cursor: pointer;
-    flex: 1;
-    text-align: center;
-    background-color: var(--bg-light);
-    transition: all 0.2s;
-  }
-  
-  .tab:first-child {
-    border-top-left-radius: var(--border-radius);
-  }
-  
-  .tab:last-child {
-    border-top-right-radius: var(--border-radius);
-  }
-  
-  .tab.active {
-    background-color: var(--primary);
-    font-weight: bold;
-  }
-  
-  .tab:hover:not(.active) {
-    background-color: var(--primary-light);
-  }
-  
-  /* Controles de batalla */
-  .battle-controls {
-    margin-top: auto;
-    padding: 15px;
-    background-color: var(--bg-light);
-    display: flex;
+.tools-header {
+  background-color: var(--primary);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tools-header h3 {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 18px;
+}
+
+.resources {
+  display: flex;
+  gap: 15px;
+}
+
+.resource {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.resource-icon {
+  font-size: 20px;
+}
+
+.resource-value {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.tools-content {
+  display: flex;
+  height: 100%;
+}
+
+.tool-sidebar {
+  flex: 0 0 auto;
+}
+
+.tool-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 15px;
+}
+
+.tool-button {
+  background-color: var(--bg-light);
+  border: 1px solid var(--neutral-dark);
+  border-radius: var(--border-radius);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tool-button:hover {
+  background-color: var(--primary-light);
+}
+
+.tool-button.selected {
+  background-color: var(--primary);
+  border-color: var(--text-light);
+}
+
+.tool-button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--neutral-dark);
+}
+
+.tool-button.disabled:hover {
+  background-color: var(--neutral-dark);
+  transform: none;
+}
+
+.tool-icon {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.tool-name {
+  font-size: 14px;
+}
+
+.tool-button .tool-cost {
+  display: block;
+  font-size: 0.8em;
+  margin-top: 2px;
+  color: var(--gold);
+}
+
+/* Combined zone button with dropdown */
+.zone-button {
+  position: relative;
+}
+
+.zone-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--bg-light);
+  border: 1px solid var(--neutral-dark);
+  border-radius: var(--border-radius);
+  width: 100%;
+  z-index: 10;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.zone-dropdown.open {
+  display: block;
+}
+
+.zone-option {
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zone-option:hover {
+  background-color: var(--primary-light);
+}
+
+.zone-option.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.zone-icon {
+  font-size: 18px;
+}
+
+.zone-name {
+  font-size: 14px;
+}
+
+/* Sidebar for selector content */
+.selector-sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+  margin-left: 0;
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  border: 1px solid var(--neutral-dark);
+}
+
+/* Tabs for selector */
+.selector-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--neutral-dark);
+}
+
+.tab {
+  padding: 8px 15px;
+  cursor: pointer;
+  flex: 1;
+  text-align: center;
+  background-color: var(--bg-light);
+  transition: all 0.2s;
+}
+
+.tab:first-child {
+  border-top-left-radius: var(--border-radius);
+}
+
+.tab:last-child {
+  border-top-right-radius: var(--border-radius);
+}
+
+.tab.active {
+  background-color: var(--primary);
+  font-weight: bold;
+}
+
+.tab:hover:not(.active) {
+  background-color: var(--primary-light);
+}
+
+.selector-panel {
+  padding: 15px;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+/* Tool info panel */
+.tool-info-panel {
+  margin: 15px;
+}
+
+.tool-info {
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  padding: 12px;
+  margin-top: 10px;
+  border-left: 3px solid var(--gold);
+}
+
+.tool-info h4 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: var(--gold);
+  font-size: 15px;
+}
+
+.tool-info p {
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.tool-info ul {
+  list-style-type: none;
+  padding-left: 5px;
+  margin: 0;
+  font-size: 13px;
+}
+
+.tool-info li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 6px;
+}
+
+.tool-info li:before {
+  content: "•";
+  position: absolute;
+  left: 5px;
+  color: var(--gold);
+}
+
+/* Battle controls at the bottom */
+.battle-controls {
+  padding: 15px;
+  background-color: var(--bg-light);
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.start-battle-btn {
+  background-color: var(--secondary);
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  text-align: center;
+  width: 100%;
+  max-width: 300px;
+}
+
+.start-battle-btn:hover {
+  background-color: var(--secondary-light);
+  transform: scale(1.02);
+}
+
+.start-battle-btn:active {
+  transform: scale(0.98);
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .tools-content {
     flex-direction: column;
-    gap: 10px;
   }
   
-  .start-battle-btn {
-    background-color: var(--secondary);
-    color: white;
-    padding: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: all 0.2s;
-    border: none;
-    text-align: center;
+  .selector-sidebar {
+    margin: 15px;
   }
-  
-  .start-battle-btn:hover {
-    background-color: var(--secondary-light);
-    transform: scale(1.02);
-  }
-  
-  .start-battle-btn:active {
-    transform: scale(0.98);
-  }
-  
-  .battle-tip {
-    font-size: 12px;
-    color: var(--neutral-light);
-    text-align: center;
-    line-height: 1.4;
-  }
-  
-  /* Media queries para responsividad */
-  @media (max-width: 1200px) {
-    .build-tools {
-      max-width: none;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .tool-buttons {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .build-tools {
-      min-width: 0;
-    }
-    
-    .tools-header h3 {
-      font-size: 16px;
-    }
-    
-    .resource-icon, .resource-value {
-      font-size: 14px;
-    }
-  }
+}
