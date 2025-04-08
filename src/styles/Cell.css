@@ -1,0 +1,499 @@
+/* src/styles/Cell.css */
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border: 1px solid var(--neutral-dark);
+  background-color: var(--bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-fast, 0.2s);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Foco para accesibilidad con teclado */
+.cell:focus {
+  outline: 2px solid var(--info);
+  outline-offset: -2px;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5);
+  z-index: 20;
+}
+
+/* Efectos de hover */
+.cell:hover {
+  box-shadow: inset 0 0 0 2px var(--primary-light);
+  transform: scale(1.05);
+  z-index: 10;
+}
+
+/* Tipos de celdas */
+.cell.empty {
+  background-color: var(--bg-dark);
+}
+
+.cell.path {
+  background-color: var(--path-color);
+  background-image: linear-gradient(to bottom right, rgba(255,255,255,0.05), transparent);
+}
+
+.cell.entrance {
+  background-color: var(--primary-light);
+  background-image: radial-gradient(circle at center, rgba(255,255,255,0.2), transparent);
+}
+
+.cell.player {
+  background-color: var(--secondary);
+  background-image: radial-gradient(circle at center, rgba(255,255,255,0.2), transparent);
+}
+
+.cell.monster .cell-content {
+  font-size: 28px;
+  animation: bobble 2s infinite ease-in-out;
+}
+
+.cell.trap .cell-content {
+  font-size: 26px;
+  animation: pulse 2s infinite;
+}
+
+/* Estados de celda */
+.cell.highlight-path {
+  box-shadow: inset 0 0 0 2px var(--info);
+  animation: pulse 1.5s infinite;
+}
+
+.cell.dead {
+  opacity: 0.6;
+  filter: grayscale(0.7);
+  background-blend-mode: darken;
+}
+
+.cell.triggered {
+  opacity: 0.5;
+  filter: grayscale(0.5);
+}
+
+/* Estructuras especiales */
+.cell.room {
+  background-color: rgba(241, 196, 15, 0.3);
+  border: 1px solid rgba(241, 196, 15, 0.7);
+  box-shadow: inset 0 0 5px rgba(241, 196, 15, 0.3);
+}
+
+.cell.hall {
+  background-color: rgba(52, 152, 219, 0.3);
+  border: 1px solid rgba(52, 152, 219, 0.7);
+  box-shadow: inset 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.cell.monster.room {
+  background-color: rgba(241, 196, 15, 0.4);
+}
+
+.cell.monster.hall {
+  background-color: rgba(52, 152, 219, 0.4);
+}
+
+/* Contenedor para el contenido principal de la celda */
+.cell-content {
+  z-index: 2;
+  position: relative;
+  pointer-events: none;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Detalles en hover */
+.cell-details {
+  display: none;
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--bg-medium);
+  border: 1px solid var(--primary-light);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  padding: 12px;
+  border-radius: var(--border-radius);
+  width: 220px;
+  z-index: 100;
+  pointer-events: none;
+  font-size: 12px;
+  white-space: normal;
+  text-align: center;
+  transition: opacity var(--transition-normal, 0.3s), transform var(--transition-normal, 0.3s);
+}
+
+.cell:hover .cell-details {
+  display: block;
+  animation: fadeIn 0.3s;
+}
+
+/* Triángulo debajo del tooltip */
+.cell-details::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: var(--primary-light) transparent transparent transparent;
+}
+
+/* Estilos específicos para cada tipo de tooltip */
+.monster-details {
+  background-color: rgba(192, 57, 43, 0.95);
+  border-color: var(--danger);
+  color: white;
+}
+
+.monster-details::after {
+  border-color: var(--danger) transparent transparent transparent;
+}
+
+.trap-details {
+  background-color: rgba(241, 196, 15, 0.95);
+  border-color: var(--gold);
+  color: var(--text-dark);
+}
+
+.trap-details::after {
+  border-color: var(--gold) transparent transparent transparent;
+}
+
+.entrance-details, .player-details {
+  background-color: rgba(52, 73, 94, 0.95);
+  border-color: var(--primary);
+}
+
+.entrance-details::after, .player-details::after {
+  border-color: var(--primary) transparent transparent transparent;
+}
+
+.adventurer-details {
+  background-color: rgba(52, 152, 219, 0.95);
+  border-color: var(--info);
+}
+
+.adventurer-details::after {
+  border-color: var(--info) transparent transparent transparent;
+}
+
+.room-details, .hall-details {
+  background-color: rgba(241, 196, 15, 0.95);
+  border-color: var(--gold);
+  color: var(--text-dark);
+}
+
+.room-details::after, .hall-details::after {
+  border-color: var(--gold) transparent transparent transparent;
+}
+
+/* Contenido de los tooltips */
+.monster-name, .trap-name, .adventurer-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+
+.monster-stats, .trap-stats, .adventurer-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.health-bar-container {
+  margin: 5px 0;
+  height: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.health-bar {
+  height: 100%;
+  background-color: var(--health);
+  transition: width 0.3s;
+}
+
+.health-bar.health-warning {
+  background-color: var(--health-warning);
+}
+
+.health-bar.health-critical {
+  background-color: var(--health-critical);
+  animation: pulse 1s infinite;
+}
+
+.health-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8px;
+  color: white;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+}
+
+.level-indicator {
+  background-color: var(--primary);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 10px;
+  margin-left: 5px;
+  color: white;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.buff-info {
+  color: #2ecc71;
+  font-weight: bold;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.debuff-info {
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.status-info {
+  margin-top: 5px;
+  padding: 3px 6px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  font-size: 10px;
+  display: inline-block;
+}
+
+.cooldown-info {
+  color: var(--info);
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.trait-info {
+  font-style: italic;
+  margin-top: 5px;
+  font-size: 11px;
+  color: var(--gold);
+}
+
+.trap-effects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.effect-tag {
+  font-size: 9px;
+  padding: 2px 5px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+/* Contenedor de aventureros en la celda */
+.adventurer-container {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-size: 16px;
+  background-color: rgba(52, 152, 219, 0.8);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.adventurer-icon {
+  font-size: 16px;
+}
+
+.adventurer-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--danger);
+  border-radius: 50%;
+  min-width: 15px;
+  height: 15px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.adventurer-class {
+  font-style: italic;
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.status-effects {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.status-effect {
+  font-size: 10px;
+  padding: 2px 4px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.adventurer-group-details .adventurer-count-text {
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.adventurer-classes {
+  font-style: italic;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.group-health {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mini-health-bar-container {
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.mini-health-bar {
+  height: 100%;
+  background-color: var(--health);
+}
+
+/* Animaciones para diferentes acciones */
+@keyframes attack {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); background-color: var(--danger); }
+  100% { transform: scale(1); }
+}
+
+.cell.attacking {
+  animation: attack 0.5s ease;
+}
+
+@keyframes trap-trigger {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); filter: brightness(1.5); }
+  100% { transform: scale(1); }
+}
+
+.cell.triggering {
+  animation: trap-trigger 0.5s ease;
+}
+
+@keyframes damage {
+  0% { box-shadow: inset 0 0 0 2px transparent; }
+  50% { box-shadow: inset 0 0 0 2px var(--danger); }
+  100% { box-shadow: inset 0 0 0 2px transparent; }
+}
+
+.cell.taking-damage {
+  animation: damage 0.5s ease;
+}
+
+@keyframes bobble {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Animación para celdas objetivo cuando se arrastra */
+.cell.target-valid {
+  box-shadow: inset 0 0 0 2px var(--success);
+}
+
+.cell.target-invalid {
+  box-shadow: inset 0 0 0 2px var(--danger);
+}
+
+/* Estilos responsivos */
+@media (max-width: 992px) {
+  .cell-details {
+    width: 180px;
+    font-size: 11px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cell-details {
+    width: 150px;
+    font-size: 10px;
+    padding: 5px;
+  }
+  
+  .cell-content {
+    font-size: 20px;
+  }
+  
+  .cell.monster .cell-content {
+    font-size: 24px;
+  }
+  
+  .cell.trap .cell-content {
+    font-size: 22px;
+  }
+  
+  .adventurer-container {
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+  }
+  
+  .adventurer-icon {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .cell:hover {
+    transform: scale(1.02); /* Menos zoom en móviles para evitar solapamientos */
+  }
+  
+  .cell-details {
+    width: 120px;
+    font-size: 9px;
+    padding: 4px;
+  }
+  
+  .monster-stats, .trap-stats, .adventurer-stats {
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+  }
+}

@@ -1,0 +1,496 @@
+/* src/styles/Dungeon.css */
+
+/* Contenedor principal de la mazmorra */
+.dungeon-container {
+  display: flex;
+  flex: 2;
+  gap: 20px;
+  position: relative;
+  height: 100%;
+  min-width: 0; /* Prevenir el desbordamiento en contenedores flex */
+}
+
+/* Tablero de juego */
+.dungeon {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--bg-dark);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal, 0.3s);
+  padding: 20px;
+}
+
+/* Filas del tablero */
+.dungeon-row {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+/* Animación de carga */
+.dungeon-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  color: var(--text-light);
+  background-color: var(--bg-medium);
+  border-radius: var(--border-radius);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Estados visuales del tablero */
+.dungeon.build {
+  border: 2px dashed var(--primary-light);
+}
+
+.dungeon.battle {
+  border: 2px solid var(--secondary);
+}
+
+.dungeon.summary {
+  border: 2px solid var(--info);
+}
+
+.dungeon.invalid-path {
+  border: 2px solid var(--danger);
+  animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+  0% { border-color: var(--danger); }
+  50% { border-color: var(--secondary-light); }
+  100% { border-color: var(--danger); }
+}
+
+.dungeon.dragging {
+  cursor: cell;
+}
+
+/* Overlay que muestra la herramienta seleccionada */
+.construction-overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(40, 44, 52, 0.85);
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10;
+  transition: all 0.3s;
+}
+
+.selected-tool-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tool-icon {
+  font-size: 20px;
+}
+
+.tool-name {
+  font-weight: bold;
+}
+
+.selected-item-name {
+  color: var(--gold);
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+/* Mensaje de camino no válido */
+.invalid-path-alert {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--danger);
+  color: white;
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  font-weight: bold;
+  animation: bounce 1s infinite;
+  z-index: 10;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Panel de información lateral */
+.dungeon-info-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  max-width: 300px;
+  background-color: var(--bg-medium);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  gap: 15px;
+  overflow-y: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Leyenda del mapa */
+.dungeon-legend {
+  background-color: var(--bg-light);
+  padding: 15px;
+  border-radius: var(--border-radius);
+}
+
+.legend-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--text-light);
+  border-bottom: 1px solid var(--neutral-dark);
+  padding-bottom: 5px;
+}
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.legend-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  font-size: 18px;
+}
+
+.legend-icon.entrance {
+  background-color: var(--primary-light);
+}
+
+.legend-icon.player {
+  background-color: var(--secondary);
+}
+
+.legend-icon.path {
+  background-color: var(--path-color);
+}
+
+.legend-icon.monster {
+  background-color: var(--danger);
+}
+
+.legend-icon.trap {
+  background-color: var(--gold);
+}
+
+.legend-icon.highlight-path {
+  background-color: rgba(52, 152, 219, 0.3);
+  border: 1px dashed #3498db;
+}
+
+.legend-icon.room {
+  background-color: rgba(241, 196, 15, 0.3);
+  border: 1px solid rgba(241, 196, 15, 0.7);
+}
+
+.legend-icon.hall {
+  background-color: rgba(52, 152, 219, 0.3);
+  border: 1px solid rgba(52, 152, 219, 0.7);
+}
+
+.legend-text {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+/* Estadísticas de la mazmorra */
+.dungeon-stats {
+  background-color: var(--bg-light);
+  padding: 15px;
+  border-radius: var(--border-radius);
+}
+
+.stats-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--text-light);
+  border-bottom: 1px solid var(--neutral-dark);
+  padding-bottom: 5px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.stat-item {
+  background-color: var(--bg-medium);
+  padding: 8px;
+  border-radius: var(--border-radius);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-item.total {
+  grid-column: span 2;
+  background-color: var(--primary-dark);
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.stat-value {
+  font-weight: bold;
+  color: var(--primary-light);
+}
+
+/* Información de la batalla */
+.battle-info {
+  background-color: var(--bg-light);
+  padding: 15px;
+  border-radius: var(--border-radius);
+}
+
+.battle-info-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--secondary-light);
+  border-bottom: 1px solid var(--neutral-dark);
+  padding-bottom: 5px;
+}
+
+.adventurers-info {
+  margin-top: 10px;
+}
+
+.adventurers-info h4 {
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: var(--info);
+}
+
+.adventurers-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-light);
+  padding: 8px;
+  background-color: var(--bg-medium);
+  border-radius: var(--border-radius);
+  margin-bottom: 12px;
+}
+
+.adventurers-count .alive {
+  color: var(--success);
+  font-weight: bold;
+}
+
+.adventurers-count .total {
+  color: var(--text-light);
+}
+
+.adventurers-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.adventurer-item {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  background-color: var(--bg-medium);
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.adventurer-item.dead {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.adv-icon {
+  font-size: 18px;
+  z-index: 2;
+}
+
+.adv-health-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background-color: var(--health);
+  transition: width 0.3s ease;
+}
+
+.battle-controls {
+  margin-top: 15px;
+}
+
+.battle-tip {
+  background-color: var(--bg-medium);
+  padding: 10px;
+  border-radius: var(--border-radius);
+  border-left: 3px solid var(--info);
+}
+
+.battle-tip p {
+  font-size: 12px;
+  margin: 0;
+  color: var(--text-light);
+}
+
+/* Ayuda contextual */
+.tool-help {
+  background-color: var(--bg-light);
+  padding: 15px;
+  border-radius: var(--border-radius);
+  border-left: 3px solid var(--gold);
+}
+
+.tool-help h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--gold);
+}
+
+.tool-help p {
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* Animaciones para eventos de batalla */
+@keyframes deathAnimation {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+.cell-dying {
+  animation: deathAnimation 0.8s forwards;
+}
+
+@keyframes moveAnimation {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+.cell-moving {
+  animation: moveAnimation 0.5s ease;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 1200px) {
+  .dungeon-container {
+    flex-direction: column;
+  }
+  
+  .dungeon-info-panel {
+    max-width: none;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+  }
+  
+  .dungeon-legend,
+  .dungeon-stats,
+  .battle-info,
+  .tool-help {
+    min-width: 250px;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dungeon {
+    padding: 10px;
+  }
+  
+  .dungeon-info-panel {
+    flex-direction: column;
+  }
+  
+  .dungeon-legend,
+  .dungeon-stats,
+  .battle-info,
+  .tool-help {
+    max-width: none;
+  }
+  
+  .legend-grid,
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-item.total {
+    grid-column: span 1;
+  }
+}
+
+/* Modificadores de visibilidad */
+.hide-on-mobile {
+  display: block;
+}
+
+@media (max-width: 576px) {
+  .hide-on-mobile {
+    display: none;
+  }
+  
+  .construction-overlay,
+  .invalid-path-alert {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+  
+  .tool-icon {
+    font-size: 16px;
+  }
+}

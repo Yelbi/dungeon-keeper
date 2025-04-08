@@ -1,0 +1,287 @@
+/* src/styles/ItemSelector.css */
+/* Estilos compartidos para MonsterSelector y TrapSelector */
+
+.monster-selector, .trap-selector {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .monsters-grid, .traps-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .monster-card, .trap-card {
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 1px solid var(--neutral-dark);
+  }
+  
+  .monster-card:hover, .trap-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .monster-card.selected, .trap-card.selected {
+    border: 2px solid var(--gold);
+    background-color: var(--primary-light);
+  }
+  
+  .monster-card.unaffordable, .trap-card.unaffordable {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .monster-card-header, .trap-card-header {
+    background-color: var(--primary);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .monster-emoji, .trap-emoji {
+    font-size: 24px;
+    margin-right: 10px;
+    background-color: var(--bg-medium);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  
+  .monster-info, .trap-info {
+    flex: 1;
+  }
+  
+  .monster-name, .trap-name {
+    font-weight: bold;
+  }
+  
+  .monster-level, .trap-level {
+    font-size: 12px;
+    color: var(--text-light);
+    opacity: 0.8;
+  }
+  
+  .details-button {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+  }
+  
+  .details-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .monster-card-body, .trap-card-body {
+    padding: 10px;
+  }
+  
+  .monster-quick-stats, .trap-quick-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px 0;
+  }
+  
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-icon {
+    font-size: 18px;
+    margin-bottom: 3px;
+  }
+  
+  .stat-value {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .cost-stat .stat-value.unaffordable {
+    color: var(--danger);
+  }
+  
+  .monster-card-footer, .trap-card-footer {
+    padding: 10px;
+    border-top: 1px solid var(--neutral-dark);
+  }
+  
+  .upgrade-button {
+    width: 100%;
+    padding: 8px;
+    background-color: var(--primary-light);
+    color: var(--text-light);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .upgrade-button:hover:not(.disabled) {
+    background-color: var(--primary);
+  }
+  
+  .upgrade-button.disabled {
+    background-color: var(--neutral-dark);
+    cursor: not-allowed;
+  }
+  
+  .exp-icon {
+    font-size: 14px;
+  }
+  
+  /* Paneles de detalles */
+  .monster-details-panel, .trap-details-panel {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: var(--bg-medium);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--neutral-dark);
+    animation: fadeIn 0.3s;
+  }
+  
+  .monster-details-header, .trap-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .monster-details-header h4, .trap-details-header h4 {
+    margin: 0;
+    color: var(--gold);
+  }
+  
+  .monster-description, .trap-description {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    color: var(--text-light);
+  }
+  
+  .monster-stats-grid, .trap-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .monster-stat, .trap-stat {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-light);
+    padding: 6px;
+    border-radius: 4px;
+  }
+  
+  .stat-label {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  
+  /* Habilidades y efectos */
+  .monster-abilities, .trap-effects {
+    margin-top: 10px;
+  }
+  
+  .monster-abilities h5, .trap-effects h5 {
+    margin: 0 0 8px 0;
+    color: var(--text-light);
+    font-size: 14px;
+    border-bottom: 1px solid var(--neutral-dark);
+    padding-bottom: 3px;
+  }
+  
+  .abilities-list, .effects-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .abilities-list li, .effects-list li {
+    font-size: 12px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .ability-icon, .effect-icon {
+    margin-right: 5px;
+    font-size: 14px;
+  }
+  
+  /* Información de mejora */
+  .monster-upgrade-info, .trap-upgrade-info {
+    margin-top: 10px;
+  }
+  
+  .monster-upgrade-info h5, .trap-upgrade-info h5 {
+    margin: 0 0 8px 0;
+    color: var(--text-light);
+    font-size: 14px;
+    border-bottom: 1px solid var(--neutral-dark);
+    padding-bottom: 3px;
+  }
+  
+  .upgrade-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 8px;
+  }
+  
+  .upgrade-preview div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .current-value {
+    color: var(--text-light);
+    font-size: 12px;
+  }
+  
+  .arrow {
+    color: var(--neutral-light);
+    font-size: 12px;
+  }
+  
+  .upgraded-value {
+    color: var(--success);
+    font-weight: bold;
+    font-size: 12px;
+  }
+  
+  .upgrade-cost {
+    font-size: 12px;
+    text-align: right;
+    color: var(--experience);
+  }
+  
+  /* Mensaje cuando no hay elementos disponibles */
+  .no-items-message {
+    padding: 20px;
+    text-align: center;
+    color: var(--neutral-light);
+    font-style: italic;
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius);
+  }

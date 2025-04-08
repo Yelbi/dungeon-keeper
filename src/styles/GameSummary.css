@@ -1,0 +1,272 @@
+/* src/styles/GameSummary.css */
+.game-summary {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-medium);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    min-width: 300px;
+  }
+  
+  .summary-header {
+    background-color: var(--info);
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .summary-header h2 {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 18px;
+  }
+  
+  .summary-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .battle-results, .rewards, .battle-tips, .battle-log-summary, .next-day-container {
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius);
+    padding: 15px;
+  }
+  
+  .battle-results h3, .rewards h3, .battle-tips h3, .next-day-container h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: var(--text-light);
+    border-bottom: 1px solid var(--neutral-dark);
+    padding-bottom: 5px;
+  }
+  
+  .stat-grid, .rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .stat-item, .reward-item {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-medium);
+    padding: 8px;
+    border-radius: var(--border-radius);
+  }
+  
+  .stat-label, .reward-label {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text-light);
+  }
+  
+  .stat-value, .reward-value {
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--text-light);
+  }
+  
+  .reward-icon {
+    margin-right: 5px;
+    font-size: 16px;
+  }
+  
+  .tip-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .tip-item {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--text-light);
+  }
+  
+  .tip-item:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--success);
+  }
+  
+  .log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .toggle-log-btn {
+    background-color: var(--primary);
+    color: var(--text-light);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  
+  .toggle-log-btn:hover {
+    background-color: var(--primary-light);
+  }
+  
+  .log-content {
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: var(--bg-dark);
+    border-radius: var(--border-radius);
+    padding: 10px;
+  }
+  
+  .full-log, .summary-log {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  
+  .log-entry {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--bg-light);
+  }
+  
+  .log-entry:last-child {
+    border-bottom: none;
+  }
+  
+  .next-day-container {
+    text-align: center;
+  }
+  
+  .next-day-container p {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 15px;
+    line-height: 1.4;
+  }
+  
+  .next-day-btn {
+    background-color: var(--secondary);
+    color: var(--text-light);
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .next-day-btn:hover {
+    background-color: var(--secondary-light);
+    transform: scale(1.05);
+  }
+  
+  /* Media queries para responsividad */
+  @media (max-width: 768px) {
+    .stat-grid, .rewards-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .summary-header h2 {
+      font-size: 16px;
+    }
+    
+    .next-day-btn {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  }
+
+  /* Estilos para estadísticas específicas de batalla */
+.battle-statistics {
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.battle-statistics h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  color: var(--danger);
+  border-bottom: 1px solid var(--neutral-dark);
+  padding-bottom: 5px;
+}
+
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.statistic-item {
+  text-align: center;
+  background-color: var(--bg-medium);
+  padding: 10px;
+  border-radius: var(--border-radius);
+}
+
+.statistic-icon {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.statistic-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-light);
+}
+
+.statistic-label {
+  font-size: 12px;
+  color: var(--neutral-light);
+}
+
+/* Medallas de batalla */
+.battle-medals {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.battle-medal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--bg-medium);
+  padding: 10px;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  justify-content: center;
+  border: 2px solid var(--neutral-dark);
+}
+
+.battle-medal.gold {
+  border-color: var(--gold);
+}
+
+.battle-medal.silver {
+  border-color: var(--text-light);
+}
+
+.battle-medal.bronze {
+  border-color: #cd7f32;
+}
+
+.medal-icon {
+  font-size: 24px;
+}
+
+.medal-label {
+  font-size: 10px;
+  text-align: center;
+  margin-top: 3px;
+}
