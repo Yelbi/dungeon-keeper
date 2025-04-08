@@ -1150,7 +1150,7 @@ const DungeonKeeperGame = () => {
                 battleSpeed={battleSpeed}
               />
             )}
-
+  
             {gamePhase === 'summary' && (
               <GameSummary 
                 day={day}

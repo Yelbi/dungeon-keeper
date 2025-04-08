@@ -1,16 +1,16 @@
-/* src/styles/Cell.css - Versión mejorada */
+/* src/styles/Cell.css - Versión actualizada */
 .cell {
   width: var(--cell-size);
   height: var(--cell-size);
-  /* Eliminar el espacio entre celdas y hacer bordes más delgados */
-  border: 0.5px solid var(--neutral-dark);
+  /* Borde más definido para las celdas */
+  border: 1px solid var(--neutral-dark);
   margin: 0; /* Eliminar cualquier margen */
   padding: 0; /* Eliminar cualquier padding */
   background-color: var(--bg-dark);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 22px; /* Ligeramente más pequeño */
   cursor: pointer;
   position: relative;
   transition: all var(--transition-fast, 0.2s);
@@ -19,7 +19,7 @@
   box-sizing: border-box; /* Garantizar que el tamaño incluya el borde */
 }
 
-/* Foco para accesibilidad con teclado - ajustado para evitar empujar otras celdas */
+/* Foco para accesibilidad con teclado */
 .cell:focus {
   outline: 2px solid var(--info);
   outline-offset: -2px;
@@ -30,7 +30,7 @@
 /* Efectos de hover - reducir la escala para evitar empujar otras celdas */
 .cell:hover {
   box-shadow: inset 0 0 0 2px var(--primary-light);
-  transform: scale(1.03);
+  transform: scale(1.02);
   z-index: 10;
 }
 
@@ -55,12 +55,12 @@
 }
 
 .cell.monster .cell-content {
-  font-size: 28px;
+  font-size: 24px;
   animation: bobble 2s infinite ease-in-out;
 }
 
 .cell.trap .cell-content {
-  font-size: 26px;
+  font-size: 22px;
   animation: pulse 2s infinite;
 }
 
@@ -81,25 +81,44 @@
   filter: grayscale(0.5);
 }
 
-/* Estructuras especiales - ajustados para evitar bordes dobles */
+/* Estructuras especiales - visualización mejorada */
 .cell.room {
-  background-color: rgba(241, 196, 15, 0.3);
-  border: 1px solid rgba(241, 196, 15, 0.7);
-  box-shadow: inset 0 0 5px rgba(241, 196, 15, 0.3);
+  background-color: rgba(241, 196, 15, 0.2);
+  border: 1px solid rgba(241, 196, 15, 0.6);
+  box-shadow: inset 0 0 5px rgba(241, 196, 15, 0.2);
 }
 
 .cell.hall {
-  background-color: rgba(52, 152, 219, 0.3);
-  border: 1px solid rgba(52, 152, 219, 0.7);
-  box-shadow: inset 0 0 5px rgba(52, 152, 219, 0.3);
+  background-color: rgba(52, 152, 219, 0.2);
+  border: 1px solid rgba(52, 152, 219, 0.6);
+  box-shadow: inset 0 0 5px rgba(52, 152, 219, 0.2);
+}
+
+/* Resaltar las estructuras con un distintivo en la esquina */
+.cell.room::after {
+  content: "🏠";
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: 8px;
+  opacity: 0.7;
+}
+
+.cell.hall::after {
+  content: "🏛️";
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: 8px;
+  opacity: 0.7;
 }
 
 .cell.monster.room {
-  background-color: rgba(241, 196, 15, 0.4);
+  background-color: rgba(241, 196, 15, 0.3);
 }
 
 .cell.monster.hall {
-  background-color: rgba(52, 152, 219, 0.4);
+  background-color: rgba(52, 152, 219, 0.3);
 }
 
 /* Contenedor para el contenido principal de la celda */
@@ -120,12 +139,12 @@
   background-color: var(--bg-medium);
   border: 1px solid var(--primary-light);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  padding: 12px;
+  padding: 10px;
   border-radius: var(--border-radius);
-  width: 220px;
+  width: 200px;
   z-index: 100;
   pointer-events: none;
-  font-size: 12px;
+  font-size: 11px;
   white-space: normal;
   text-align: center;
   transition: opacity var(--transition-normal, 0.3s), transform var(--transition-normal, 0.3s);
@@ -142,8 +161,8 @@
   position: absolute;
   top: 100%;
   left: 50%;
-  margin-left: -8px;
-  border-width: 8px;
+  margin-left: -6px;
+  border-width: 6px;
   border-style: solid;
   border-color: var(--primary-light) transparent transparent transparent;
 }
@@ -200,24 +219,25 @@
 /* Contenido de los tooltips */
 .monster-name, .trap-name, .adventurer-name {
   font-weight: bold;
-  margin-bottom: 5px;
-  font-size: 13px;
+  margin-bottom: 4px;
+  font-size: 12px;
 }
 
 .monster-stats, .trap-stats, .adventurer-stats {
   display: flex;
   justify-content: space-around;
-  margin-top: 8px;
+  margin-top: 6px;
   background-color: rgba(0, 0, 0, 0.2);
-  padding: 5px;
-  border-radius: 4px;
+  padding: 4px;
+  border-radius: 3px;
+  font-size: 10px;
 }
 
 .health-bar-container {
-  margin: 5px 0;
-  height: 8px;
+  margin: 4px 0;
+  height: 6px;
   background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
+  border-radius: 3px;
   overflow: hidden;
   position: relative;
 }
@@ -242,17 +262,17 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 8px;
+  font-size: 7px;
   color: white;
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
 }
 
 .level-indicator {
   background-color: var(--primary);
-  padding: 2px 4px;
-  border-radius: 3px;
-  font-size: 10px;
-  margin-left: 5px;
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-size: 9px;
+  margin-left: 4px;
   color: white;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
@@ -260,65 +280,65 @@
 .buff-info {
   color: #2ecc71;
   font-weight: bold;
-  font-size: 11px;
-  margin-top: 5px;
+  font-size: 10px;
+  margin-top: 4px;
 }
 
 .debuff-info {
   color: #e74c3c;
   font-weight: bold;
-  font-size: 11px;
-  margin-top: 5px;
+  font-size: 10px;
+  margin-top: 4px;
 }
 
 .status-info {
-  margin-top: 5px;
-  padding: 3px 6px;
+  margin-top: 4px;
+  padding: 2px 4px;
   background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-  font-size: 10px;
+  border-radius: 2px;
+  font-size: 9px;
   display: inline-block;
 }
 
 .cooldown-info {
   color: var(--info);
-  font-size: 11px;
-  margin-top: 5px;
+  font-size: 10px;
+  margin-top: 4px;
 }
 
 .trait-info {
   font-style: italic;
-  margin-top: 5px;
-  font-size: 11px;
+  margin-top: 4px;
+  font-size: 10px;
   color: var(--gold);
 }
 
 .trap-effects {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 3px;
   justify-content: center;
-  margin-top: 5px;
+  margin-top: 4px;
 }
 
 .effect-tag {
-  font-size: 9px;
-  padding: 2px 5px;
+  font-size: 8px;
+  padding: 1px 4px;
   background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
+  border-radius: 2px;
   white-space: nowrap;
 }
 
 /* Contenedor de aventureros en la celda */
 .adventurer-container {
   position: absolute;
-  top: 3px;
-  right: 3px;
-  font-size: 16px;
+  top: 2px;
+  right: 2px;
+  font-size: 14px;
   background-color: rgba(52, 152, 219, 0.8);
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -327,18 +347,18 @@
 }
 
 .adventurer-icon {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .adventurer-count {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -4px;
+  right: -4px;
   background-color: var(--danger);
   border-radius: 50%;
-  min-width: 15px;
-  height: 15px;
-  font-size: 10px;
+  min-width: 12px;
+  height: 12px;
+  font-size: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -347,52 +367,72 @@
 
 .adventurer-class {
   font-style: italic;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   color: rgba(255, 255, 255, 0.8);
+  font-size: 9px;
 }
 
 .status-effects {
-  margin-top: 5px;
+  margin-top: 4px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .status-effect {
-  font-size: 10px;
-  padding: 2px 4px;
+  font-size: 9px;
+  padding: 1px 3px;
   background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
+  border-radius: 2px;
   display: inline-block;
 }
 
 .adventurer-group-details .adventurer-count-text {
   font-weight: bold;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
+  font-size: 10px;
 }
 
 .adventurer-classes {
   font-style: italic;
-  font-size: 11px;
-  margin-bottom: 5px;
+  font-size: 9px;
+  margin-bottom: 4px;
 }
 
 .group-health {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .mini-health-bar-container {
-  height: 4px;
+  height: 3px;
   background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 2px;
+  border-radius: 1px;
   overflow: hidden;
 }
 
 .mini-health-bar {
   height: 100%;
   background-color: var(--health);
+}
+
+/* Marcadores de estructura - mejoras visuales */
+.room-marker, .hall-marker {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  font-size: 8px;
+  opacity: 0.8;
+  z-index: 2;
+}
+
+.room-marker {
+  color: var(--gold);
+}
+
+.hall-marker {
+  color: var(--info);
 }
 
 /* Animaciones para diferentes acciones */
@@ -449,7 +489,7 @@
 @media (max-width: 992px) {
   .cell-details {
     width: 180px;
-    font-size: 11px;
+    font-size: 10px;
     padding: 8px;
   }
 }
@@ -457,41 +497,41 @@
 @media (max-width: 768px) {
   .cell-details {
     width: 150px;
-    font-size: 10px;
+    font-size: 9px;
     padding: 5px;
   }
   
   .cell-content {
-    font-size: 20px;
+    font-size: 18px;
   }
   
   .cell.monster .cell-content {
-    font-size: 24px;
+    font-size: 20px;
   }
   
   .cell.trap .cell-content {
-    font-size: 22px;
+    font-size: 18px;
   }
   
   .adventurer-container {
-    width: 20px;
-    height: 20px;
-    font-size: 14px;
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
   }
   
   .adventurer-icon {
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 
 @media (max-width: 576px) {
   .cell:hover {
-    transform: scale(1.02); /* Menos zoom en móviles para evitar solapamientos */
+    transform: scale(1.01); /* Menos zoom en móviles para evitar solapamientos */
   }
   
   .cell-details {
     width: 120px;
-    font-size: 9px;
+    font-size: 8px;
     padding: 4px;
   }
   

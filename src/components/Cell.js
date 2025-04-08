@@ -313,6 +313,10 @@ const Cell = ({
         }
       }}
     >
+      {/* Añadir los marcadores de sala y habitación aquí */}
+      {isRoom && <span className="room-marker">🏠</span>}
+      {isHall && <span className="hall-marker">🏛️</span>}
+      
       {content && <div className="cell-content">{content}</div>}
       {adventurerContent?.icon}
       {displayDetails}

@@ -1,3 +1,4 @@
+// src/components/BuildTools.js (Versión Final)
 import React, { useState, useEffect } from 'react';
 import MonsterSelector from './MonsterSelector';
 import TrapSelector from './TrapSelector';
@@ -20,7 +21,6 @@ const BuildTools = ({
   hallCost = 150
 }) => {
   const [activeTab, setActiveTab] = useState('monsters');
-  const [isZoneDropdownOpen, setIsZoneDropdownOpen] = useState(false);
   
   // Callback para cuando se selecciona una herramienta
   const handleToolSelect = (tool) => {
@@ -30,11 +30,13 @@ const BuildTools = ({
     setSelectedTool(tool);
     setSelectedItem(null);
     
-    // Si es monstruo o trampa, activar la pestaña correspondiente
+    // Establecer la pestaña activa según la herramienta
     if (tool === 'monster') {
       setActiveTab('monsters');
     } else if (tool === 'trap') {
       setActiveTab('traps');
+    } else if (tool === 'room' || tool === 'hall') {
+      setActiveTab('zones');
     }
   };
 
@@ -42,13 +44,206 @@ const BuildTools = ({
   const canAffordRoom = gold >= roomCost;
   const canAffordHall = gold >= hallCost;
   
-  // Manejar selección de zona (habitación o sala)
-  const handleZoneSelect = (type) => {
-    if (type === 'room' && !canAffordRoom) return;
-    if (type === 'hall' && !canAffordHall) return;
+  // Renderizar el panel de zonas
+  const renderZonesPanel = () => {
+    return (
+      <div className="zones-panel">
+        <div className="zone-card" onClick={() => canAffordRoom && handleToolSelect('room')}>
+          <div className="zone-card-header">
+            <div className="zone-emoji">🏠</div>
+            <div className="zone-info">
+              <div className="zone-name">Habitación</div>
+              <div className="zone-size">Tamaño 2x2</div>
+            </div>
+          </div>
+          
+          <div className="zone-card-body">
+            <div className="zone-description">
+              <p>Crea un espacio fortificado que otorga bonificaciones a tus monstruos.</p>
+            </div>
+            
+            <div className="zone-benefits">
+              <div className="benefit-item">
+                <span className="benefit-icon">⚔️</span>
+                <span className="benefit-text">+15% daño para monstruos</span>
+              </div>
+              <div className="benefit-item">
+                <span className="benefit-icon">🛡️</span>
+                <span className="benefit-text">+10% defensa para monstruos</span>
+              </div>
+            </div>
+            
+            <div className="zone-cost">
+              <span className="cost-label">Coste:</span>
+              <span className={`cost-value ${!canAffordRoom ? 'unaffordable' : ''}`}>
+                {roomCost} <span className="cost-icon">💰</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="zone-card" onClick={() => canAffordHall && handleToolSelect('hall')}>
+          <div className="zone-card-header">
+            <div className="zone-emoji">🏛️</div>
+            <div className="zone-info">
+              <div className="zone-name">Sala</div>
+              <div className="zone-size">Tamaño 3x3</div>
+            </div>
+          </div>
+          
+          <div className="zone-card-body">
+            <div className="zone-description">
+              <p>Crea un espacio más grande con mayores bonificaciones y efectos contra aventureros.</p>
+            </div>
+            
+            <div className="zone-benefits">
+              <div className="benefit-item">
+                <span className="benefit-icon">⚔️</span>
+                <span className="benefit-text">+20% daño para monstruos</span>
+              </div>
+              <div className="benefit-item">
+                <span className="benefit-icon">❤️</span>
+                <span className="benefit-text">+10% salud para monstruos</span>
+              </div>
+              <div className="benefit-item">
+                <span className="benefit-icon">🐢</span>
+                <span className="benefit-text">-15% velocidad para aventureros</span>
+              </div>
+            </div>
+            
+            <div className="zone-cost">
+              <span className="cost-label">Coste:</span>
+              <span className={`cost-value ${!canAffordHall ? 'unaffordable' : ''}`}>
+                {hallCost} <span className="cost-icon">💰</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Renderizar el contenido según la herramienta seleccionada
+  const renderToolContent = () => {
+    if ((selectedTool === 'room' || selectedTool === 'hall')) {
+      return (
+        <div className="selector-sidebar">
+          <div className="selector-tabs">
+            <div 
+              className={`tab ${activeTab === 'monsters' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('monsters'); setSelectedTool('monster'); }}
+            >
+              Monstruos
+            </div>
+            <div 
+              className={`tab ${activeTab === 'traps' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('traps'); setSelectedTool('trap'); }}
+            >
+              Trampas
+            </div>
+            <div 
+              className={`tab ${activeTab === 'zones' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('zones'); }}
+            >
+              Zonas
+            </div>
+          </div>
+          
+          <div className="selector-panel">
+            {renderZonesPanel()}
+          </div>
+        </div>
+      );
+    }
     
-    handleToolSelect(type);
-    setIsZoneDropdownOpen(false);
+    if (selectedTool === 'monster' || activeTab === 'monsters') {
+      return (
+        <div className="selector-sidebar">
+          <div className="selector-tabs">
+            <div 
+              className={`tab ${activeTab === 'monsters' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('monsters'); setSelectedTool('monster'); }}
+            >
+              Monstruos
+            </div>
+            <div 
+              className={`tab ${activeTab === 'traps' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('traps'); setSelectedTool('trap'); }}
+            >
+              Trampas
+            </div>
+            <div 
+              className={`tab ${activeTab === 'zones' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('zones'); selectedTool === 'monster' && setSelectedTool('room'); }}
+            >
+              Zonas
+            </div>
+          </div>
+          
+          <div className="selector-panel">
+            <MonsterSelector 
+              monsters={availableMonsters}
+              selectedMonsterId={selectedItem?.id}
+              onSelectMonster={setSelectedItem}
+              onUpgradeMonster={upgradeMonster}
+              gold={gold}
+              experience={experience}
+            />
+          </div>
+        </div>
+      );
+    }
+    
+    if (selectedTool === 'trap' || activeTab === 'traps') {
+      return (
+        <div className="selector-sidebar">
+          <div className="selector-tabs">
+            <div 
+              className={`tab ${activeTab === 'monsters' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('monsters'); setSelectedTool('monster'); }}
+            >
+              Monstruos
+            </div>
+            <div 
+              className={`tab ${activeTab === 'traps' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('traps'); setSelectedTool('trap'); }}
+            >
+              Trampas
+            </div>
+            <div 
+              className={`tab ${activeTab === 'zones' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('zones'); selectedTool === 'trap' && setSelectedTool('room'); }}
+            >
+              Zonas
+            </div>
+          </div>
+          
+          <div className="selector-panel">
+            <TrapSelector 
+              traps={availableTraps}
+              selectedTrapId={selectedItem?.id}
+              onSelectTrap={setSelectedItem}
+              onUpgradeTrap={upgradeTrap}
+              gold={gold}
+              experience={experience}
+            />
+          </div>
+        </div>
+      );
+    }
+    
+    // Para otras herramientas, mostrar consejos generales
+    return (
+      <div className="tool-help">
+        <h3>Consejos para Caminos</h3>
+        <p>Los caminos conectan la entrada con el jefe final. Puedes:</p>
+        <ul>
+          <li>Hacer clic y arrastrar para crear caminos continuos</li>
+          <li>Crear formaciones de 2x2 para habitaciones</li>
+          <li>Crear formaciones de 3x3 para salas</li>
+        </ul>
+      </div>
+    );
   };
 
   return (
@@ -78,39 +273,18 @@ const BuildTools = ({
               title="Coloca caminos que conecten la entrada con el jefe final"
             >
               <span className="tool-icon" role="img" aria-hidden="true">🛣️</span>
-              <span className="tool-name">Camino</span>
             </button>
             
-            {/* Zone button (combines Room and Hall) */}
-            <div className="zone-button">
-              <button 
-                className={`tool-button ${selectedTool === 'room' || selectedTool === 'hall' ? 'selected' : ''}`}
-                onClick={() => setIsZoneDropdownOpen(!isZoneDropdownOpen)}
-                aria-pressed={selectedTool === 'room' || selectedTool === 'hall'}
-                aria-label="Crear zona"
-                title="Crea habitaciones o salas para mejorar a tus monstruos"
-              >
-                <span className="tool-icon" role="img" aria-hidden="true">🏗️</span>
-                <span className="tool-name">Zona</span>
-              </button>
-              
-              <div className={`zone-dropdown ${isZoneDropdownOpen ? 'open' : ''}`}>
-                <div 
-                  className={`zone-option ${!canAffordRoom ? 'disabled' : ''}`}
-                  onClick={() => handleZoneSelect('room')}
-                >
-                  <span className="zone-icon">🏠</span>
-                  <span className="zone-name">Habitación ({roomCost}💰)</span>
-                </div>
-                <div 
-                  className={`zone-option ${!canAffordHall ? 'disabled' : ''}`}
-                  onClick={() => handleZoneSelect('hall')}
-                >
-                  <span className="zone-icon">🏛️</span>
-                  <span className="zone-name">Sala ({hallCost}💰)</span>
-                </div>
-              </div>
-            </div>
+            {/* Zona button simplificado */}
+            <button 
+              className={`tool-button ${activeTab === 'zones' ? 'selected' : ''}`}
+              onClick={() => { setActiveTab('zones'); setSelectedTool('room'); }}
+              aria-pressed={activeTab === 'zones'}
+              aria-label="Crear zona"
+              title="Crea habitaciones o salas para mejorar a tus monstruos"
+            >
+              <span className="tool-icon" role="img" aria-hidden="true">🏗️</span>
+            </button>
             
             <button 
               className={`tool-button ${selectedTool === 'monster' ? 'selected' : ''}`}
@@ -120,7 +294,6 @@ const BuildTools = ({
               title="Coloca monstruos para defender tu mazmorra"
             >
               <span className="tool-icon" role="img" aria-hidden="true">👾</span>
-              <span className="tool-name">Monstruo</span>
             </button>
             
             <button 
@@ -131,7 +304,6 @@ const BuildTools = ({
               title="Coloca trampas para dañar a los aventureros"
             >
               <span className="tool-icon" role="img" aria-hidden="true">⚠️</span>
-              <span className="tool-name">Trampa</span>
             </button>
             
             <button 
@@ -142,140 +314,11 @@ const BuildTools = ({
               title="Elimina elementos de la mazmorra"
             >
               <span className="tool-icon" role="img" aria-hidden="true">🗑️</span>
-              <span className="tool-name">Borrar</span>
             </button>
           </div>
         </div>
         
-        {/* Sidebar for selector content */}
-        {(selectedTool === 'monster' || selectedTool === 'trap') && (
-          <div className="selector-sidebar">
-            <div className="selector-tabs" role="tablist">
-              <button 
-                className={`tab ${activeTab === 'monsters' ? 'active' : ''}`}
-                onClick={() => { setActiveTab('monsters'); setSelectedTool('monster'); }}
-                role="tab"
-                aria-selected={activeTab === 'monsters'}
-                id="tab-monsters"
-                aria-controls="panel-monsters"
-              >
-                Monstruos
-              </button>
-              <button 
-                className={`tab ${activeTab === 'traps' ? 'active' : ''}`}
-                onClick={() => { setActiveTab('traps'); setSelectedTool('trap'); }}
-                role="tab"
-                aria-selected={activeTab === 'traps'}
-                id="tab-traps"
-                aria-controls="panel-traps"
-              >
-                Trampas
-              </button>
-            </div>
-            
-            {selectedTool === 'monster' && activeTab === 'monsters' && (
-              <div 
-                id="panel-monsters" 
-                role="tabpanel" 
-                aria-labelledby="tab-monsters"
-                className="selector-panel"
-              >
-                <MonsterSelector 
-                  monsters={availableMonsters}
-                  selectedMonsterId={selectedItem?.id}
-                  onSelectMonster={setSelectedItem}
-                  onUpgradeMonster={upgradeMonster}
-                  gold={gold}
-                  experience={experience}
-                />
-              </div>
-            )}
-            
-            {selectedTool === 'trap' && activeTab === 'traps' && (
-              <div 
-                id="panel-traps" 
-                role="tabpanel" 
-                aria-labelledby="tab-traps"
-                className="selector-panel"
-              >
-                <TrapSelector 
-                  traps={availableTraps}
-                  selectedTrapId={selectedItem?.id}
-                  onSelectTrap={setSelectedItem}
-                  onUpgradeTrap={upgradeTrap}
-                  gold={gold}
-                  experience={experience}
-                />
-              </div>
-            )}
-          </div>
-        )}
-        
-        {/* Display tool info for other tools */}
-        {selectedTool === 'delete' && !activeTab && (
-          <div className="selector-sidebar">
-            <div className="tool-info-panel">
-              <div className="tool-info">
-                <h4>Herramienta de Borrado</h4>
-                <p>Haz clic en elementos de la mazmorra para eliminarlos:</p>
-                <ul>
-                  <li>Recuperas el 50% del oro invertido</li>
-                  <li>Para borrar habitaciones/salas, elimina primero los monstruos y trampas</li>
-                  <li>No puedes borrar la entrada ni al jefe final</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {selectedTool === 'path' && !activeTab && (
-          <div className="selector-sidebar">
-            <div className="tool-info-panel">
-              <div className="tool-info">
-                <h4>Consejos para Caminos</h4>
-                <p>Los caminos conectan la entrada con el jefe final. Puedes:</p>
-                <ul>
-                  <li>Hacer clic y arrastrar para crear caminos continuos</li>
-                  <li>Crear formaciones de 2x2 para habitaciones</li>
-                  <li>Crear formaciones de 3x3 para salas</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {selectedTool === 'room' && !activeTab && (
-          <div className="selector-sidebar">
-            <div className="tool-info-panel">
-              <div className="tool-info">
-                <h4>Habitación (2x2)</h4>
-                <p>Crea un espacio fortificado de 2x2 que otorga bonificaciones a tus monstruos.</p>
-                <ul>
-                  <li>Coste: {roomCost} oro</li>
-                  <li>Monstruos: +15% de daño</li>
-                  <li>Requiere un espacio de 2x2 vacío o con caminos</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        )}
-        
-        {selectedTool === 'hall' && !activeTab && (
-          <div className="selector-sidebar">
-            <div className="tool-info-panel">
-              <div className="tool-info">
-                <h4>Sala (3x3)</h4>
-                <p>Crea un espacio más grande de 3x3 con mayores bonificaciones y efectos contra aventureros.</p>
-                <ul>
-                  <li>Coste: {hallCost} oro</li>
-                  <li>Monstruos: +20% de daño, +10% de salud</li>
-                  <li>Aventureros: -15% de velocidad</li>
-                  <li>Requiere un espacio de 3x3 vacío o con caminos</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        )}
+        {renderToolContent()}
       </div>
       
       <div className="battle-controls">
