@@ -1,10 +1,11 @@
-/* BuildTools.css - Actualizado para Zonas */
-.build-tools {
+/* BuildTools.css - Versión completa y corregida */
+.build-tools-new {
   display: flex;
   flex-direction: column;
   background-color: #2c3440;
   overflow: hidden;
   height: 100%;
+  width: 50%; /* Asegurar que ocupe la mitad de la pantalla */
 }
 
 .tools-header {
@@ -44,19 +45,22 @@
   color: #ecf0f1;
 }
 
-.tools-content {
+.tools-content-new {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  overflow: hidden;
+}
+
+.tool-sidebar-new {
+  width: 60px;
+  background-color: #2c3440;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  overflow: auto;
 }
 
-.tool-sidebar {
-  padding: 10px;
-  background-color: #2c3440;
-}
-
-/* Botones de herramientas en columna */
+/* Tool buttons vertical */
 .tool-buttons {
   display: flex;
   flex-direction: column;
@@ -92,61 +96,165 @@
   font-size: 24px;
 }
 
-.tool-name {
-  display: none;
-}
-
-/* Selector tabs */
-.selector-sidebar {
+/* Selector container and tabs */
+.selector-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #2c3440;
-  border-radius: 6px;
   overflow: hidden;
-  margin: 0 10px 10px 10px;
 }
 
 .selector-tabs {
   display: flex;
-  background-color: #2c3e50;
+  background-color: #34495e;
   border-bottom: 1px solid #1a2530;
 }
 
-.tab {
-  padding: 12px;
-  cursor: pointer;
-  flex: 1;
-  text-align: center;
-  background-color: #2c3e50;
-  transition: all 0.2s;
+.tab-button {
+  padding: 10px 15px;
+  background-color: transparent;
+  border: none;
   color: #ecf0f1;
+  cursor: pointer;
   font-size: 14px;
+  transition: all 0.2s;
   border-bottom: 3px solid transparent;
 }
 
-.tab.active {
-  background-color: #3a546b;
-  border-bottom-color: #61a3ff;
+.tab-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab-button.active {
+  border-bottom-color: #f1c40f;
+  background-color: rgba(255, 255, 255, 0.05);
   font-weight: bold;
 }
 
-.tab:hover:not(.active) {
-  background-color: #34495e;
-}
-
-.selector-panel {
-  padding: 10px;
-  overflow-y: auto;
+.selector-content {
   flex: 1;
-  background-color: #2c3440;
+  overflow-y: auto;
+  padding: 15px;
 }
 
-/* Panel de zonas */
-.zones-panel {
+.section-title {
+  margin: 0 0 15px 0;
+  color: #ecf0f1;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+}
+
+/* Items grid horizontal - para monstruos y trampas */
+.items-grid-horizontal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: flex-start;
+}
+
+.item-card-horizontal {
+  background-color: #2c3e50;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #395980;
+  transition: all 0.2s;
+  cursor: pointer;
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+.item-card-horizontal:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.item-card-horizontal.selected {
+  border: 2px solid #f1c40f;
+  box-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
+}
+
+.item-card-horizontal.unaffordable {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.item-card-header-horizontal {
+  background-color: #34495e;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #1a2530;
+}
+
+.item-emoji {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a2530;
+  border-radius: 50%;
+}
+
+.item-info {
+  flex: 1;
+}
+
+.item-name {
+  font-weight: bold;
+  font-size: 16px;
+  color: #e74c3c;
+}
+
+.item-level {
+  font-size: 12px;
+  color: #bdc3c7;
+}
+
+.item-card-body-horizontal {
+  padding: 10px;
+}
+
+.item-quick-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 5px 0;
+}
+
+.stat {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  gap: 2px;
+}
+
+.stat-icon {
+  font-size: 18px;
+}
+
+.stat-value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #3498db;
+}
+
+.cost-stat .stat-value.unaffordable {
+  color: #e74c3c;
+}
+
+.item-card-footer-horizontal {
+  padding: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Zonas */
+.zones-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .zone-card {
@@ -156,26 +264,28 @@
   border: 1px solid #395980;
   transition: all 0.2s;
   cursor: pointer;
+  width: 100%;
+  max-width: 300px;
 }
 
 .zone-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 .zone-card-header {
   background-color: #34495e;
-  padding: 10px;
+  padding: 12px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   border-bottom: 1px solid #1a2530;
 }
 
 .zone-emoji {
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
+  font-size: 28px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -189,12 +299,12 @@
 
 .zone-name {
   font-weight: bold;
-  font-size: 16px;
+  font-size: 18px;
   color: #ecf0f1;
 }
 
 .zone-size {
-  font-size: 12px;
+  font-size: 14px;
   color: #bdc3c7;
 }
 
@@ -204,9 +314,9 @@
 
 .zone-description {
   margin-bottom: 15px;
-  font-size: 13px;
-  line-height: 1.4;
+  font-size: 14px;
   color: #ecf0f1;
+  line-height: 1.5;
 }
 
 .zone-benefits {
@@ -215,7 +325,7 @@
   gap: 8px;
   margin-bottom: 15px;
   background-color: rgba(0, 0, 0, 0.2);
-  padding: 10px;
+  padding: 12px;
   border-radius: 6px;
 }
 
@@ -226,11 +336,11 @@
 }
 
 .benefit-icon {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .benefit-text {
-  font-size: 13px;
+  font-size: 14px;
   color: #ecf0f1;
 }
 
@@ -265,94 +375,7 @@
   font-size: 16px;
 }
 
-/* Monster/Trap Cards */
-.monster-card, .trap-card {
-  background-color: #2c3e50;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 15px;
-  border: 1px solid #395980;
-  transition: all 0.2s;
-}
-
-.monster-card:hover, .trap-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.monster-card.selected, .trap-card.selected {
-  border: 2px solid #f1c40f;
-  box-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
-}
-
-.monster-card-header, .trap-card-header {
-  background-color: #34495e;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid #1a2530;
-}
-
-.monster-emoji, .trap-emoji {
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #1a2530;
-  border-radius: 50%;
-}
-
-.monster-info, .trap-info {
-  flex: 1;
-}
-
-.monster-name, .trap-name {
-  font-weight: bold;
-  font-size: 16px;
-  color: #e74c3c;
-}
-
-.monster-level, .trap-level {
-  font-size: 12px;
-  color: #bdc3c7;
-}
-
-.monster-card-body, .trap-card-body {
-  padding: 15px;
-}
-
-.monster-quick-stats, .trap-quick-stats {
-  display: flex;
-  justify-content: space-around;
-  padding: 15px 0;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-}
-
-.stat-icon {
-  font-size: 20px;
-}
-
-.stat-value {
-  font-size: 24px;
-  font-weight: bold;
-  color: #3498db;
-}
-
-.monster-card-footer, .trap-card-footer {
-  padding: 10px 15px;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
+/* Upgrade button */
 .upgrade-button {
   width: 100%;
   padding: 8px;
@@ -362,7 +385,7 @@
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s;
-  font-size: 14px;
+  font-size: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -380,50 +403,11 @@
   opacity: 0.7;
 }
 
-/* Consejos para herramientas */
-.tool-help {
-  margin: 15px;
-  padding: 15px;
-  background-color: #2c3440;
-  border-radius: 6px;
-  border-left: 3px solid #f1c40f;
+.exp-icon {
+  display: inline-block;
 }
 
-.tool-help h3 {
-  font-size: 16px;
-  color: #f1c40f;
-  margin-bottom: 10px;
-}
-
-.tool-help p {
-  margin: 0 0 10px 0;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #ecf0f1;
-}
-
-.tool-help ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.tool-help li {
-  margin-bottom: 8px;
-  position: relative;
-  padding-left: 20px;
-  font-size: 13px;
-  color: #ecf0f1;
-}
-
-.tool-help li:before {
-  content: "•";
-  position: absolute;
-  left: 5px;
-  color: #f1c40f;
-}
-
-/* Botón de batalla */
+/* Battle button */
 .battle-controls {
   padding: 15px;
   background-color: rgba(0, 0, 0, 0.2);
@@ -454,37 +438,64 @@
   transform: translateY(0);
 }
 
+/* Mensaje cuando no hay elementos */
+.no-items-message {
+  padding: 20px;
+  text-align: center;
+  color: #bdc3c7;
+  font-style: italic;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
 /* Media queries */
-@media (max-width: 768px) {
-  .tool-buttons {
-    flex-direction: row;
-    flex-wrap: wrap;
+@media (max-width: 1200px) {
+  .zone-card {
+    max-width: none;
+    width: 100%;
   }
   
-  .tool-button {
-    width: 48%;
-    flex: 0 0 48%;
+  .item-card-horizontal {
+    width: 180px;
   }
 }
 
-@media (max-width: 576px) {
-  .monster-card-header, .trap-card-header, .zone-card-header {
-    padding: 8px;
+@media (max-width: 992px) {
+  .items-grid-horizontal {
+    justify-content: center;
   }
   
-  .monster-emoji, .trap-emoji, .zone-emoji {
-    width: 32px;
-    height: 32px;
-    font-size: 20px;
+  .item-card-horizontal {
+    width: 170px;
+  }
+}
+
+@media (max-width: 768px) {
+  .build-tools-new {
+    width: 100%; /* En móvil ocupa todo el ancho */
   }
   
-  .selector-tabs {
-    overflow-x: auto;
+  .tools-content-new {
+    flex-direction: column;
   }
   
-  .tab {
-    padding: 8px;
-    font-size: 12px;
-    min-width: 80px;
+  .tool-sidebar-new {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 5px;
+  }
+  
+  .tool-buttons {
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 0;
+  }
+  
+  .tool-button {
+    width: 45px;
+    height: 45px;
   }
 }

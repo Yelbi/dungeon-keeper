@@ -1,4 +1,4 @@
-/* DungeonKeeperGame.css - Ajustes adicionales */
+/* DungeonKeeperGame.css - Versión completa y corregida */
 :root {
   /* Paleta de colores */
   --primary-dark: #2c3e50;
@@ -46,18 +46,20 @@ body {
   background-color: var(--bg-dark);
   color: var(--text-light);
   line-height: 1.6;
+  margin: 0;
+  padding: 0;
 }
 
 .dungeon-keeper-game {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* Contenedor principal del juego - ajustado para layout 50/50 */
+/* Contenedor principal del juego - layout 50/50 exacto */
 .game-content {
   display: flex;
   margin-top: 20px;
@@ -68,27 +70,23 @@ body {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Layout de dos columnas */
+/* Layout de dos columnas exactamente 50/50 */
 .dungeon-container {
-  flex: 1; /* Exactamente 50% */
+  flex: 0 0 50%; /* Exactamente 50% */
+  width: 50%;
   height: 100%;
   overflow: auto;
   background-color: var(--bg-medium);
-  border-right: 1px solid var(--primary-dark);
 }
 
-.build-tools, 
+.build-tools-new, 
 .battle-layout, 
 .game-summary {
-  flex: 1; /* Exactamente 50% */
+  flex: 0 0 50%; /* Exactamente 50% */
+  width: 50%;
   height: 100%;
   overflow: auto;
   background-color: var(--bg-medium);
-}
-
-/* Ocultar elementos innecesarios */
-.dungeon-info-panel {
-  display: none !important;
 }
 
 /* Ajuste para la mazmorra */
@@ -113,71 +111,88 @@ body {
   line-height: 0;
 }
 
-/* Simplificar build tools */
-.tools-header {
-  padding: 10px 15px;
-  background-color: #2c3e50;
-  border-bottom: 1px solid var(--primary-dark);
+/* Ocultar elementos innecesarios */
+.dungeon-info-panel {
+  display: none !important;
 }
 
-/* Hacer visible los consejos de herramientas */
-.tool-help {
-  display: block !important;
-  margin: 15px 10px;
-  padding: 15px;
-  background-color: var(--bg-light);
+/* Cambiar clases para que use build-tools-new en vez de build-tools */
+.build-tools {
+  display: none !important;
+}
+
+/* Header de juego */
+.game-header {
+  background-color: var(--primary-dark);
   border-radius: var(--border-radius);
-  border-left: 3px solid var(--gold);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
-.tool-help h3 {
-  font-size: 16px;
-  color: var(--gold);
-  margin-bottom: 10px;
+.game-title h1 {
+  margin: 0;
+  font-size: 24px;
+  color: var(--text-light);
 }
 
-.tool-help p {
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-/* Animaciones */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+.message-display {
+  background-color: var(--bg-light);
+  padding: 10px 15px;
+  border-radius: var(--border-radius);
+  flex: 1;
+  margin: 0 20px;
+  text-align: center;
 }
 
 /* Media queries for responsiveness */
 @media (max-width: 1200px) {
+  .game-content {
+    gap: 0;
+  }
+}
+
+@media (max-width: 992px) {
   .game-content {
     flex-direction: column;
     height: auto;
   }
   
   .dungeon-container, 
-  .build-tools, 
+  .build-tools-new, 
   .battle-layout, 
   .game-summary {
     flex: none;
     width: 100%;
     height: auto;
-    max-height: 500px;
+    max-height: none;
+  }
+  
+  .dungeon-container {
+    height: 50vh;
+    min-height: 400px;
   }
 }
 
 @media (max-width: 768px) {
+  .dungeon-keeper-game {
+    padding: 10px;
+  }
+  
   :root {
     --cell-size: 38px;
   }
   
-  .dungeon-keeper-game {
+  .game-header {
+    flex-direction: column;
     padding: 10px;
+  }
+  
+  .message-display {
+    margin: 10px 0;
+    width: 100%;
   }
 }
 
@@ -185,53 +200,4 @@ body {
   :root {
     --cell-size: 32px; 
   }
-}
-
-/* Ajustes para cell */
-.cell {
-  width: var(--cell-size);
-  height: var(--cell-size);
-  border: 1px solid #444;
-  background-color: #222;
-  transition: background-color 0.2s;
-}
-
-.cell.entrance {
-  background-color: #2980b9;
-}
-
-.cell.player {
-  background-color: #c0392b;
-}
-
-.cell.path {
-  background-color: #8b4513;
-}
-
-.cell-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  font-size: 22px;
-}
-
-/* Botón de iniciar batalla */
-.start-battle-btn {
-  background-color: #c0392b;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 100%;
-  margin-top: auto;
-}
-
-.start-battle-btn:hover {
-  background-color: #e74c3c;
 }
