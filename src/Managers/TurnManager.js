@@ -1,13 +1,30 @@
 // src/managers/TurnManager.js
 class TurnManager {
-    constructor(onBattleUpdate) {
-      this.onBattleUpdate = onBattleUpdate;
-      this.turnCounter = 0;
-      this.simulationSpeed = 1;
-      this.adventurerMoveDelay = 500;
-      this.turnDelay = 1000;
-      this.animationsEnabled = true;
-    }
+  constructor({
+    onBattleUpdate,
+    processStatusEffects,
+    processAdventurerTurns, 
+    processMonsterTurns, 
+    updateTraps, 
+    checkVictory, 
+    checkDefeat, 
+    getBattleResults
+  }) {
+    this.onBattleUpdate = onBattleUpdate;
+    this.processStatusEffects = processStatusEffects;
+    this.processAdventurerTurns = processAdventurerTurns;
+    this.processMonsterTurns = processMonsterTurns;
+    this.updateTraps = updateTraps;
+    this.checkVictory = checkVictory;
+    this.checkDefeat = checkDefeat;
+    this.getBattleResults = getBattleResults;
+    
+    this.turnCounter = 0;
+    this.simulationSpeed = 1;
+    this.adventurerMoveDelay = 500;
+    this.turnDelay = 1000;
+    this.animationsEnabled = true;
+  }
   
     // Actualiza los delays de animación según la velocidad
     updateDelays() {

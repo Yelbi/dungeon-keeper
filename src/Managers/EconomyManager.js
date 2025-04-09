@@ -2,6 +2,7 @@
 import Monster from '../models/Monster';
 import Trap from '../models/Trap';
 import Adventurer from '../models/Adventurer';
+import gameConfig from '../utils/gameConfig';
 
 class EconomyManager {
   constructor({

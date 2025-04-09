@@ -15,7 +15,7 @@ class BuildManager {
     }
     
     // Método principal para colocar un elemento en la mazmorra
-    placeItem = (x, y, selectedTool, selectedItem, dungeon, boardWidth, boardHeight, entrancePosition, playerPosition, gold, rooms, halls) => {
+    placeItem = (x, y, selectedTool, selectedItem, dungeon, boardWidth, boardHeight, entrancePosition, playerPosition, gold, rooms, halls, roomCost, hallCost) => {
       // Validación de coordenadas
       if (x < 0 || y < 0 || x >= boardWidth || y >= boardHeight) {
         console.error("Coordenadas fuera de rango:", x, y);
