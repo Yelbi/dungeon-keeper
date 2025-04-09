@@ -13,6 +13,9 @@ import PathFinder from '../models/PathFinder';
 import BattleManager from '../utils/battleManager';
 import gameConfig from '../utils/gameConfig';
 import '../styles/DungeonKeeperGame.css';
+import GameStateManager from './managers/GameStateManager';
+import BuildManager from './managers/BuildManager';
+import EconomyManager from './managers/EconomyManager';
 
 const DungeonKeeperGame = () => {
   // Estados del juego
@@ -62,25 +65,6 @@ const DungeonKeeperGame = () => {
     initializeGame();
   }, []);
   
-  // Inicializar el juego
-  const initializeGame = () => {
-    // Crear una nueva mazmorra
-    const newDungeon = Array(boardHeight).fill().map(() => Array(boardWidth).fill(null));
-    
-    // Colocar al jugador y la entrada
-    newDungeon[playerPosition.y][playerPosition.x] = { type: 'player' };
-    newDungeon[entrancePosition.y][entrancePosition.x] = { type: 'entrance' };
-    
-    // Inicializar monstruos y trampas disponibles del día 1
-    const monsters = gameConfig.utils.createAvailableMonsters(1);
-    const traps = gameConfig.utils.createAvailableTraps(1);
-    
-    setDungeon(newDungeon);
-    setAvailableMonsters(monsters);
-    setAvailableTraps(traps);
-    setGamePhase('build');
-    setMessage(`Día 1: ¡Construye tu mazmorra!`);
-  };
   
   // Colocar un elemento en la mazmorra
   const placeItem = (x, y) => {
@@ -819,50 +803,6 @@ const DungeonKeeperGame = () => {
     
     return newAdventurers;
   };
-  
-  // Iniciar la batalla
-  const startBattle = () => {
-    // Verificar si hay un camino válido
-    const pathFinder = new PathFinder(dungeon);
-    if (!pathFinder.hasValidPath()) {
-      setMessage('¡Debes construir un camino completo de la entrada al jefe final!');
-      return;
-    }
-    
-    // Cambiar a fase de batalla
-    setGamePhase('battle');
-    setMessage('¡Los aventureros están atacando tu mazmorra!');
-    setBattleLog(['¡La batalla ha comenzado!']);
-    
-    // Generar aventureros
-    const newAdventurers = generateAdventurers();
-    setAdventurers(newAdventurers);
-    
-    // Crear gestor de batalla
-    const newBattleManager = new BattleManager(
-      dungeon, 
-      newAdventurers,
-      handleBattleUpdate,
-      { 
-        rooms, 
-        halls,
-        currentDay: day,
-        speed: battleSpeed,
-        // Añadir información sobre la mazmorra para estadísticas
-        monstersCount: countDungeonItems(dungeon, 'monster'),
-        trapsCount: countDungeonItems(dungeon, 'trap'),
-        pathsCount: countDungeonItems(dungeon, 'path')
-      }
-    );
-    
-    // Establece la velocidad después de crear el manager
-    newBattleManager.adventurerMoveDelay = 500 / battleSpeed;
-    newBattleManager.turnDelay = 1000 / battleSpeed;
-    setBattleManager(newBattleManager);
-    
-    // Iniciar la batalla
-    newBattleManager.startBattle();
-  };
 
   // Cambiar velocidad de batalla
   const toggleBattleSpeed = () => {
@@ -879,96 +819,8 @@ const DungeonKeeperGame = () => {
     }
   };
   
-  // Manejar actualizaciones de la batalla
-  const handleBattleUpdate = useCallback((update) => {
-    if (!update) {
-      console.error("Error: handleBattleUpdate recibió un update indefinido");
-      return;
-    }
-    
-    // Actualizar el log de batalla
-    if (update.log) {
-      setBattleLog(update.log);
-    }
-    
-    // Manejar actualización de celda
-    if (update.type === 'cellUpdate' && update.x >= 0 && update.y >= 0 && 
-        update.x < boardWidth && update.y < boardHeight) {
-      setDungeon(prevDungeon => {
-        const newDungeon = [...prevDungeon];
-        newDungeon[update.y][update.x] = update.content;
-        return newDungeon;
-      });
-    }
-    
-    // Manejar movimiento de aventurero
-    if (update.type === 'adventurerMove' && update.adventurer && update.to) {
-      setAdventurers(prevAdventurers => {
-        return prevAdventurers.map(adv => 
-          adv.id === update.adventurer.id 
-            ? {...adv, position: update.to} 
-            : adv
-        );
-      });
-    }
-    
-    // Manejar fin de batalla
-    if (update.type === 'victory' || update.type === 'defeat') {
-      // Obtén los resultados de la batalla
-      const results = update.results || {
-        goldReward: 0,
-        experienceReward: 0
-      };
-      
-      // Guardar recompensas
-      setGoldReward(results.goldReward);
-      setExperienceReward(results.experienceReward);
-      
-      // Actualizar valores
-      setGold(prevGold => prevGold + results.goldReward);
-      setExperience(prevExp => prevExp + results.experienceReward);
-      
-      if (update.type === 'victory') {
-        setMessage(`¡Victoria! Ganaste ${results.goldReward} oro y ${results.experienceReward} experiencia.`);
-        
-        // Pasar a la fase de resumen
-        setGamePhase('summary');
-      } else {
-        setMessage(`¡Derrota! Los aventureros han alcanzado al jefe final. Ganaste ${results.goldReward} oro y ${results.experienceReward} experiencia.`);
-        
-        // El juego termina
-        setGameOver(true);
-      }
-    }
-  }, [boardWidth, boardHeight]);
   
-  // Pasar al siguiente día
-  const nextDay = () => {
-    // Verificar si hemos alcanzado el máximo de días (por ejemplo, 30)
-    const maxDays = gameConfig.maxDays || 30;
-    if (day >= maxDays) {
-      setMessage(`¡Has alcanzado el día máximo (${maxDays})! El juego ha terminado.`);
-      setGameOver(true);
-      return;
-    }
-    
-    // Incrementar el día
-    const newDay = day + 1;
-    setDay(newDay);
-    
-    // Restaurar la mazmorra (reparar trampas, curar monstruos, etc.)
-    const restoredDungeon = restoreDungeon();
-    setDungeon(restoredDungeon);
-    
-    // Verificar desbloqueos de monstruos y trampas
-    checkUnlocks(newDay);
-    
-    // Volver a la fase de construcción
-    setGamePhase('build');
-    setMessage(`Día ${newDay}: ¡Mejora tu mazmorra!`);
-    setAdventurers([]);
-    setBattleLog([]);
-  };
+  
   
   // Restaurar la mazmorra para el siguiente día
   const restoreDungeon = () => {
@@ -1026,40 +878,6 @@ const DungeonKeeperGame = () => {
     setAvailableTraps(updatedTraps);
   };
   
-  // Reiniciar el juego
-  const restartGame = () => {
-    // Pedir confirmación antes de reiniciar
-    if (!window.confirm("¿Estás seguro de que quieres reiniciar el juego? Todo tu progreso se perderá.")) {
-      return;
-    }
-    
-    // Reiniciar variables de estado básicas
-    setDay(gameConfig.initialState.day);
-    setExperience(gameConfig.initialState.experience);
-    setGold(gameConfig.initialState.gold);
-    setGameOver(false);
-    setAdventurers([]);
-    setGamePhase('build');
-    setMessage('¡Día 1: Construye tu mazmorra!');
-    setBattleLog([]);
-    
-    // Reiniciar salas y habitaciones
-    setRooms([]);
-    setHalls([]);
-    
-    // Limpiar el battleManager
-    setBattleManager(null);
-    
-    // Asegurarnos que solo los monstruos/trampas del día 1 estén desbloqueados
-    const initialMonsters = gameConfig.utils.createAvailableMonsters(1);
-    const initialTraps = gameConfig.utils.createAvailableTraps(1);
-    
-    setAvailableMonsters(initialMonsters);
-    setAvailableTraps(initialTraps);
-    
-    // Inicializar tablero de juego
-    initializeGame();
-  };
 
   const countDungeonItems = (dungeon, type) => {
     let count = 0;
